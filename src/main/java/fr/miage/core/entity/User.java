@@ -27,8 +27,12 @@ public class User {
     private String userPhone;
 
     @ManyToOne
-    @Column(name="roleId")
+    @JoinColumn(name="roleId")
     private Role roles;
+
+    @ManyToOne
+    @JoinColumn(name="subscriptionId")
+    private Subscription subscription;
 
     public User() { }
 
@@ -68,5 +72,9 @@ public class User {
 
     public Role getRoles() {
         return roles;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
     }
 }
