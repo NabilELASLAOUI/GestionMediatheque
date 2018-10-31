@@ -1,7 +1,9 @@
 package fr.miage;
 
 import fr.miage.core.entity.Customer;
+import fr.miage.core.entity.Subscription;
 import fr.miage.core.service.CustomerService;
+import fr.miage.core.service.SubscriptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ public class Demo implements CommandLineRunner {
 
     @Autowired
     CustomerService customerService;
+    @Autowired
+    SubscriptionService subscriptionService;
 
     @Override
     @Transactional
@@ -36,6 +40,8 @@ public class Demo implements CommandLineRunner {
             LOGGER.info("DECATHLON created");
             LOGGER.debug("DECATHLON created profile dev");
         }
+
+       
 
     }
 }
