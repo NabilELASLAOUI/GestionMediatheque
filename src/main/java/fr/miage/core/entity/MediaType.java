@@ -16,7 +16,19 @@ public class MediaType {
     private String typeName;
 
     @OneToMany(mappedBy = "type")
-    private final List<User> users;
+    private List<Media> medias;
+
+    public MediaType(){}
+
+    public MediaType(String typeName, List<Media> medias) {
+        this.typeName = typeName;
+        this.medias = medias;
+    }
+
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     public Long getMediaTypeId() {
         return typeId;
@@ -27,7 +39,7 @@ public class MediaType {
     }
 
 
-    public List<User> getUsers() {
-        return users;
+    public List<Media> getMedias() {
+        return medias;
     }
 }

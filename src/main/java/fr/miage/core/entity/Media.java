@@ -81,7 +81,7 @@ public class Media {
         this.mediaTitle = mediaTitle;
         this.mediaDescription=mediaDescription;
         this.mediaAuthor= mediaAuthor;
-        this.mediaStatus=True;
+        this.mediaStatus=true;
         this.type= type;
     }
 
@@ -90,7 +90,7 @@ public class Media {
 
     @Override
     public String toString() {
-        return String.format("Media[id=%d, name='%s']", id, name);
+        return String.format("Media[id=%d, name='%s']", id, mediaTitle);
     }
 
 }
