@@ -37,7 +37,7 @@ public class MediaImpl implements MediaService {
     }
 
     @Override
-    public Media findByName(String name) {
-        return mediaRepository.findByName(name);
+    public Media findByMediaTitle(String name) {
+        return mediaRepository.findByMediaTitle(name);
     }
 }

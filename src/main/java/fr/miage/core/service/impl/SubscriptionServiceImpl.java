@@ -4,10 +4,13 @@ import fr.miage.core.entity.Subscription;
 import fr.miage.core.repository.SubscriptionRepository;
 import fr.miage.core.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired
     SubscriptionRepository subscriptionRepository;
@@ -37,7 +40,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription findByName(String name) {
-        return subscriptionRepository.findByName(name);
+    public List<Subscription> findByBeginningDate(Date date) {
+        return subscriptionRepository.findByBeginningDate(date);
+    }
+
+    @Override
+    public List<Subscription> findByEndDate(Date date) {
+        return subscriptionRepository.findByEndDate(date);
     }
 }

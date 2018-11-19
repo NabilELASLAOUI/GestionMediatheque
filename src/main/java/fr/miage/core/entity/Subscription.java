@@ -8,6 +8,8 @@ import java.util.List;
 @Entity
 @Table(name="Subscription")
 public class Subscription {
+
+
     @Id
     @Column(name="subscriptionId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +38,17 @@ public class Subscription {
 
     public List<User> getUsers() {
         return users;
+    }
+
+    public Subscription(Date beginningDate, Date endDate) {
+        this.beginningDate = beginningDate;
+        this.endDate = endDate;
+    }
+
+    public Subscription(Date beginningDate) {
+        this.beginningDate = beginningDate;
+    }
+
+    public Subscription() {
     }
 }

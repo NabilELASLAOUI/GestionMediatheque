@@ -9,5 +9,5 @@ public interface MediaService {
     void delete(Long id);
     List<Media> findAll();
     Media findById(Long id);
-    Media findByName(String name);
+    Media findByMediaTitle(String name);
 }

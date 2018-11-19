@@ -16,7 +16,7 @@ import java.util.List;
 public class RoleController {
 
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String findAll(Model model) {

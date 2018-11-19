@@ -1,12 +1,8 @@
 package fr.miage.core.service.impl;
 
-import fr.miage.core.entity.Customer;
 import fr.miage.core.entity.Role;
-import fr.miage.core.entity.User;
 import fr.miage.core.repository.RoleRepository;
-import fr.miage.core.repository.UserRepository;
 import fr.miage.core.service.RoleService;
-import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +13,7 @@ import java.util.Optional;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Override
     public Role save(Role entity) {
@@ -44,8 +40,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role findByName(String name) {
-        return roleRepository.findByName(name);
+    public Role findByRoleName(String name) {
+        return roleRepository.findByRoleName(name);
     }
 
 }

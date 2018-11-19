@@ -4,10 +4,12 @@ import fr.miage.core.entity.MediaType;
 import fr.miage.core.repository.MediaTypeRepository;
 import fr.miage.core.service.MediaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class MeidaTypeImpl implements MediaTypeService {
 
     @Autowired
@@ -37,7 +39,7 @@ public class MeidaTypeImpl implements MediaTypeService {
     }
 
     @Override
-    public MediaType findByName(String name) {
-        return mediaTypeRepository.findByName(name);
+    public MediaType findByTypeName(String name) {
+        return mediaTypeRepository.findByTypeName(name);
     }
 }
