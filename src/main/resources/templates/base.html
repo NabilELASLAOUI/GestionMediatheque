@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${'Mediathèque : '+title}"></title>
+    <!-- Bootstrap Styles-->
+    <link th:href="@{/static/assets/css/bootstrap.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-- Morris Chart Styles-->
+    <link th:href="@{/static/assets/js/morris/morris-0.4.3.min.css}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link th:href="@{/static/assets/css/custom-styles.css}" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" th:href="@{/static/assets/js/Lightweight-Chart/cssCharts.css}">
+</head>
+
+<body>
+<div id="wrapper">
+    <div th:replace="fragments/nav"></div>
+
+    <div id="page-wrapper">
+        <div id="page-inner">
+
+            <div th:replace="${content}"></div>
+
+
+            <footer><p>All right reserved. Template by: <a href="http://webthemez.com">WebThemez.com</a></p>
+
+
+            </footer>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script th:src="@{/static/assets/js/jquery-1.10.2.js}"></script>
+<!-- Bootstrap Js -->
+<script th:src="@{/static/assets/js/bootstrap.min.js}"></script>
+
+<!-- Metis Menu Js -->
+<script th:src="@{/static/assets/js/jquery.metisMenu.js}"></script>
+<!-- Morris Chart Js -->
+<script th:src="@{/static/assets/js/morris/raphael-2.1.0.min.js}"></script>
+<script th:src="@{/static/assets/js/morris/morris.js}"></script>
+
+
+<script th:src="@{/static/assets/js/easypiechart.js}"></script>
+<script th:src="@{/static/assets/js/easypiechart-data.js}"></script>
+
+<script th:src="@{/static/assets/js/Lightweight-Chart/jquery.chart.js}"></script>
+
+<!-- Custom Js -->
+<script th:src="@{/static/assets/js/custom-scripts.js}"></script>
+
+<script>
+
+</script>
+
+</body>
+
+</html>

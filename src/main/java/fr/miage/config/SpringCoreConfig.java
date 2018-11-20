@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource(value = {"classpath:persistence.properties"})
 @EnableTransactionManagement
 public class SpringCoreConfig {
-
+    
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpringCoreConfig.class);
 	
     @Autowired
