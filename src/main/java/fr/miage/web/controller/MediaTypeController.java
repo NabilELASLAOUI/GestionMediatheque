@@ -18,50 +18,57 @@ public class MediaTypeController {
     @Autowired
     MediaTypeService mediatypeService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String findAll(Model model) {
-        final List<MediaType> mediatypes = this.mediatypeService.findAll();
-        model.addAttribute("mediatypes", mediatypes);
-        return "mediatype/list";
-    }
-
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
+        final List<MediaType> mediatypes = this.mediatypeService.findAll();
+        String action="/mediatype/add";
+        model.addAttribute("action",action);
+        model.addAttribute("mediatypes", mediatypes);
         model.addAttribute("mediatype", new MediaType());
-        return "mediatype/form";
+        String content="media/typemedia";
+        String title="Type de Media";
+        model.addAttribute("title", title);
+        model.addAttribute("content", content);
+        return "base";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute MediaType mediatype, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "mediatype/form";
+            final List<MediaType> mediatypes = this.mediatypeService.findAll();
+            model.addAttribute("mediatypes", mediatypes);
+            return "media/typemedia";
         }
 
         mediatypeService.save(mediatype);
-        return "redirect:/mediatype";
+        return "redirect:/create";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
+        String action="edit";
+        model.addAttribute(action);
         model.addAttribute("mediatype", this.mediatypeService.findById(id));
-        return "mediatype/form";
+        return "media/typemedia";
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/doEdit", method = RequestMethod.POST)
     public String submitEdit(@Valid @ModelAttribute MediaType mediatype, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "mediatype/form";
+            final List<MediaType> mediatypes = this.mediatypeService.findAll();
+            model.addAttribute("mediatypes", mediatypes);
+            return "media/typemedia";
         }
 
         mediatypeService.save(mediatype);
-        return "redirect:/mediatype";
+        return "redirect:/types";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         mediatypeService.delete(id);
-        return "redirect:/mediatype";
-    }
+        return "redirect:/create";
+    }*/
 }
