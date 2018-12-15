@@ -10,7 +10,7 @@
                             Inscription
                         </h3>
                         <form  th:action="${action}" th:object="${Subscription}" method="post" class="form-horizontal"role="form">
-
+                            <input type="hidden" th:field="*{subscriptionId}"/>
                             <div class="form-group">
                                 <label for="typeName" >Date de début</label>
                                 <div>
@@ -55,8 +55,8 @@
                                                     <td><span th:text="${subscription.beginningDate}"></span></td>
                                                     <td><span th:text="${subscription.endDate}"></span></td>
                                                     <td>
-                                                        <a th:href="@{/subscription/edit(id=${subscription.subscriptionId})}">Modifier<i class="fa fa-pencil"></i></a>|
-                                                        <a th:href="@{'/subscription/delete/' + ${subscription.subscriptionId}}">Supprimer<i class="fa fa-remove"></i></a>
+                                                        <a th:href="@{/subscription/edit(id=${subscription.subscriptionId})}">Modifier</a>|
+                                                        <a th:href="@{'/subscription/delete/' + ${subscription.subscriptionId}}">Supprimer</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>

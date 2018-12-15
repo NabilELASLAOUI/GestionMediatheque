@@ -60,21 +60,16 @@ public class SubscriptionController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("subscription", this.subscriptionService.findById(id));
-        return "subscription/form";
+        model.addAttribute("Subscription", this.subscriptionService.findBySubscriptionId(id));
+        String action="/subscription/create";
+        model.addAttribute("action",action);
+        /*************   Title and Content html*******************************/
+        String title="Modification";
+        model.addAttribute("title", title);
+        String content="subscription/index";
+        model.addAttribute("content", content);
+        return "base";
     }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String submitEdit(@Valid @ModelAttribute Subscription subscription, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            return "subscription/form";
-        }
-
-        subscriptionService.save(subscription);
-        return "redirect:/subscription";
-    }
-
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         subscriptionService.delete(id);
