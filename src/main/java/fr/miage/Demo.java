@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -42,17 +43,6 @@ public class Demo implements CommandLineRunner {
             LOGGER.info("DECATHLON created");
             LOGGER.debug("DECATHLON created profile dev");
         }
-
-        // Subscription
-            Subscription s1 = new Subscription(new Date());
-            subscriptionService.save(s1);
-            LOGGER.info("Subscription 1 created");
-            LOGGER.debug("Subscription 1 created profile dev");
-
-            Subscription s2 = new Subscription( new Date());
-            subscriptionService.save(s2);
-            LOGGER.info("Subscription 2 created");
-            LOGGER.debug("Subscription 2 created profile dev");
 
     }
 }

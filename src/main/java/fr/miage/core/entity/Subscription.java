@@ -1,6 +1,10 @@
 package fr.miage.core.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,11 +19,15 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long subscriptionId;
 
+    @NotNull
     @Column(name="beginningDate")
-    private Date beginningDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime beginningDate;
 
+    @NotNull
     @Column(name="endDate")
-    private Date endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime endDate;
 
     @OneToMany(mappedBy = "subscription")
     private final List<User> users = new LinkedList<>();
@@ -32,11 +40,11 @@ public class Subscription {
         this.subscriptionId = subscriptionId;
     }
 
-    public Date getBeginningDate() {
+    public LocalDateTime getBeginningDate() {
         return beginningDate;
     }
 
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
@@ -44,20 +52,20 @@ public class Subscription {
         return users;
     }
 
-    public Subscription(Date beginningDate, Date endDate) {
+    public Subscription(LocalDateTime beginningDate, LocalDateTime endDate) {
         this.beginningDate = beginningDate;
         this.endDate = endDate;
     }
 
-    public void setBeginningDate(Date beginningDate) {
+    public void setBeginningDate(LocalDateTime beginningDate) {
         this.beginningDate = beginningDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
-    public Subscription(Date beginningDate) {
+    public Subscription(LocalDateTime beginningDate) {
         this.beginningDate = beginningDate;
     }
 

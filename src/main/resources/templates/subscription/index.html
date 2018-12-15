@@ -14,14 +14,14 @@
                             <div class="form-group">
                                 <label for="typeName" >Date de début</label>
                                 <div>
-                                    <input class="form-control" id="typeName" type="text" th:field="*{beginningDate}" th:placeholder="#{beginningDate}" />
+                                    <input class="form-control" id="typeName" type="datetime-local" th:field="*{beginningDate}" th:placeholder="#{beginningDate}" />
                                     <span th:if="${#fields.hasErrors('beginningDate')}" th:errors="*{beginningDate}">Field name has errors</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="typeName" >Date du Fin</label>
                                 <div>
-                                    <input class="form-control" id="typeName" type="text" th:field="*{endDate}" th:placeholder="#{endDate}" />
+                                    <input class="form-control" id="typeName" type="datetime-local" th:field="*{endDate}" th:placeholder="#{endDate}" />
                                     <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Field name has errors</span>
                                 </div>
                             </div>

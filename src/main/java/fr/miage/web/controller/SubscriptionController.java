@@ -7,9 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.validation.Valid;
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/subscription")
@@ -18,14 +20,16 @@ public class SubscriptionController {
     @Autowired
     SubscriptionService subscriptionService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
-        final List<Subscription> subscriptions = this.subscriptionService.findAll();
         /***********  List des inscription   *****************/
+        final List<Subscription> subscriptions = this.subscriptionService.findAll();
         model.addAttribute("subscriptions", subscriptions);
         String content="subscription/index";
         /***********  Ajout d'une inscription ****************/
-        String action="/subscription/add";
+        String action="/subscription/create";
         model.addAttribute("action",action);
         model.addAttribute("Subscription", new Subscription());
         /*************   Title and Content html*******************************/
@@ -34,20 +38,22 @@ public class SubscriptionController {
         model.addAttribute("content", content);
         return "base";
     }
-
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(Model model) {
-        model.addAttribute("Subscription", new Subscription());
-        return "subscription/form";
-    }
-
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Subscription subscription, BindingResult bindingResult, Model model) {
-
+        LOGGER.info("******* create subscription *******");
         if (bindingResult.hasErrors()) {
-            return "subscription/form";
+            /***********  errors subscription create ****************/
+            LOGGER.info("-----------> errors subscription create");
+            String action="/subscription/create";
+            model.addAttribute("action",action);
+            model.addAttribute("Subscription", subscription);
+            /*************   Title and Content html*******************************/
+            String title="Inscription";
+            model.addAttribute("title", title);
+            String content="subscription/index";
+            model.addAttribute("content", content);
+            return "base";
         }
-
         subscriptionService.save(subscription);
         return "redirect:/subscription";
     }
