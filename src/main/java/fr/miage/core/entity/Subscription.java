@@ -24,8 +24,12 @@ public class Subscription {
     @OneToMany(mappedBy = "subscription")
     private final List<User> users = new LinkedList<>();
 
-    public Long getRoleId() {
+    public Long getSubscriptionId() {
         return subscriptionId;
+    }
+
+    public void setSubscriptionId(Long subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 
     public Date getBeginningDate() {
@@ -42,6 +46,14 @@ public class Subscription {
 
     public Subscription(Date beginningDate, Date endDate) {
         this.beginningDate = beginningDate;
+        this.endDate = endDate;
+    }
+
+    public void setBeginningDate(Date beginningDate) {
+        this.beginningDate = beginningDate;
+    }
+
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

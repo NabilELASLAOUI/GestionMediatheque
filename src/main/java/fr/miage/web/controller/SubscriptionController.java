@@ -1,8 +1,6 @@
 package fr.miage.web.controller;
 
-import fr.miage.core.entity.MediaType;
 import fr.miage.core.entity.Subscription;
-import fr.miage.core.service.MediaTypeService;
 import fr.miage.core.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,10 +19,20 @@ public class SubscriptionController {
     SubscriptionService subscriptionService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String findAll(Model model) {
-        final List<Subscription> subscription = this.subscriptionService.findAll();
-        model.addAttribute("Subscription", subscription);
-        return "subscription/list";
+    public String index(Model model) {
+        final List<Subscription> subscriptions = this.subscriptionService.findAll();
+        /***********  List des inscription   *****************/
+        model.addAttribute("subscriptions", subscriptions);
+        String content="subscription/index";
+        /***********  Ajout d'une inscription ****************/
+        String action="/subscription/add";
+        model.addAttribute("action",action);
+        model.addAttribute("Subscription", new Subscription());
+        /*************   Title and Content html*******************************/
+        String title="Inscription";
+        model.addAttribute("title", title);
+        model.addAttribute("content", content);
+        return "base";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
