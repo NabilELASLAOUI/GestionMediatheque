@@ -247,13 +247,10 @@
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="fa fa-sitemap"></i> Utilisateurs <span class="fa arrow"></span></a>
+                <a th:class="${urlUser} ? 'active-menu' : 'nav-link'" th:href="@{/user}"><i class="fa fa-sitemap"></i> Utilisateurs <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">Ajouter un utilisateur</a>
-                    </li>
-                    <li>
-                        <a href="#">Liste des utilisateurs</a>
+                        <a  th:href="@{/user}">Liste des utilisateurs</a>
                     </li>
                     <li>
                         <a href="#">Rôles<span class="fa arrow"></span></a>

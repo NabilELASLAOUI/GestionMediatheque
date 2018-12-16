@@ -1,6 +1,6 @@
 package fr.miage.web.controller;
 
-import fr.miage.core.entity.MediaType;
+
 import fr.miage.core.entity.User;
 import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import java.*;
 
-import java.util.List;
 import javax.validation.Valid;
 
 @Controller
@@ -21,10 +19,17 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String findAll(Model model) {
-        final List<User> user = this.userService.findAll();
-        model.addAttribute("user", user);
-        return "user/list";
+    public String index(Model model) {
+        /***********  List des users   *****************/
+        model.addAttribute("users", this.userService.findAll());
+        /***********  Ajout d'un user ****************/
+        model.addAttribute("action","/user/create");
+        model.addAttribute("User", new User());
+        /*************   Title and Content html*******************************/
+        model.addAttribute("title", "Utilisateurs");
+        model.addAttribute("content", "user/index");
+        model.addAttribute("urlUser","utilisateurs");
+        return "base";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
