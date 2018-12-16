@@ -9,7 +9,51 @@
                         <h3 class="panel-heading">
                             Inscription
                         </h3>
-                        <form  th:action="${action}" th:object="${Subscription}" method="post" class="form-horizontal"role="form">
+                        <form  th:action="${action}" th:object="${User}" method="post" class="form-horizontal"role="form">
+                            <input type="hidden" th:field="*{userId}"/>
+                            <div class="form-group">
+                                <label for="typeName" >Nom</label>
+                                <div>
+                                    <input class="form-control" id="typeName" type="text" th:field="*{userName}" th:placeholder="#{userName}" />
+                                    <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Field name has errors</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="typeName" >E-mail</label>
+                                <div>
+                                    <input class="form-control" id="typeName" type="text" th:field="*{userMail}" th:placeholder="#{userMail}" />
+                                    <span th:if="${#fields.hasErrors('userMail')}" th:errors="*{userMail}">Field name has errors</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="typeName" >Mot de Passe</label>
+                                <div>
+                                    <input class="form-control" id="typeName" type="password" th:field="*{userPassword}" placeholder="password" />
+                                    <span th:if="${#fields.hasErrors('userPassword')}" th:errors="*{userPassword}">Field name has errors</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="typeName" >Adresse</label>
+                                <div>
+                                    <input class="form-control" id="typeName" type="text" th:field="*{userAddress}" th:placeholder="#{userAddress}" />
+                                    <span th:if="${#fields.hasErrors('userAddress')}" th:errors="*{userAddress}">Field name has errors</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="typeName" >Téléphone</label>
+                                <div>
+                                    <input class="form-control" id="typeName" type="text" th:field="*{userPhone}" th:placeholder="#{userPhone}" />
+                                    <span th:if="${#fields.hasErrors('userPhone')}" th:errors="*{userPhone}">Field name has errors</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="typeName" >Role</label>
+                                <select th:field="*{roles}">
+                                    <option th:value="null">Aucun role</option>
+                                    <option th:each="role : ${roles}" th:value="${role.roleId}"><span th:text="${role.roleName}"></span></option>
+                                </select>
+                                <span th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" />
+                            </div>
 
                             <button type="submit" class="btn btn-default">Enregistrer</button>
                             <button type="reset" class="btn btn-default">Annuler</button>
@@ -46,8 +90,9 @@
                                                     <td>06 63 73 18 71</span></td>
                                                     <td>Etudiant</span></td>
                                                     <td>
-                                                        <a th:href="@{/subscription/edit(id=${subscription.subscriptionId})}">Modifier</a>|
-                                                        <a th:href="@{'/subscription/delete/' + ${subscription.subscriptionId}}">Supprimer</a>
+                                                <!--        <a th:href="@{/user/edit(id=${user.userId})}">Modifier</a>|
+                                                        <a th:href="@{'/user/delete/' + ${user.userId}}">Supprimer</a>
+                                                        --->
                                                     </td>
                                                 </tr>
                                                 </tbody>

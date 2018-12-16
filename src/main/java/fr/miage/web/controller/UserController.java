@@ -2,7 +2,10 @@ package fr.miage.web.controller;
 
 
 import fr.miage.core.entity.User;
+import fr.miage.core.service.RoleService;
 import fr.miage.core.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    RoleService roleService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des users   *****************/
@@ -25,6 +33,7 @@ public class UserController {
         /***********  Ajout d'un user ****************/
         model.addAttribute("action","/user/create");
         model.addAttribute("User", new User());
+        model.addAttribute("roles", roleService.findAll());
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/index");
@@ -32,36 +41,22 @@ public class UserController {
         return "base";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(Model model) {
-        model.addAttribute("user", new User());
-        return "user/form";
-    }
-
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
-
+        LOGGER.info("******* create User *******");
         if (bindingResult.hasErrors()) {
-            return "user/form";
+            /***********  errors user create ****************/
+            LOGGER.info("-----------> errors user create");
+            model.addAttribute("action","/user/create");
+            model.addAttribute("User", user);
+            /*************   Title and Content html*******************************/
+            model.addAttribute("title", "Utilisateurs");
+            model.addAttribute("content", "user/index");
+            return "base";
         }
-
-        userService.save(user);
-        return "redirect:/user";
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String edit(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", this.userService.findById(id));
-        return "user/form";
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String submitEdit(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            return "user/form";
-        }
-
+        // TO DO
+        // Encrypt password
+       // user.setUserPassword();
         userService.save(user);
         return "redirect:/user";
     }
