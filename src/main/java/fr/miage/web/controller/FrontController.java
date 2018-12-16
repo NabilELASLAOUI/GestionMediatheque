@@ -13,6 +13,7 @@ public class FrontController {
        String title="Accueil";
        model.addAttribute("title", title);
        model.addAttribute("content", content);
+        model.addAttribute("AccueilSubscription","accueil");
 
         return "base";
     }

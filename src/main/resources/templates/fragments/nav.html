@@ -223,7 +223,7 @@
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
             <li>
-                <a class="active-menu" th:href="@{/}"><i class="fa fa-dashboard"></i> Accueil</a>
+                <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/}"><i class="fa fa-dashboard"></i> Accueil</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-sitemap"></i> Media <span class="fa arrow"></span></a>
@@ -271,15 +271,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="fa fa-sitemap"></i> Inscription <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a th:href="@{/subscription}">Liste des inscriptions</a>
-                    </li>
-                    <li>
-                        <a href="#">Ajouter une inscription</a>
-                    </li>
-                </ul>
+                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-sitemap"></i> Inscription</span></a>
             </li>
         </ul>
 

@@ -25,17 +25,14 @@ public class SubscriptionController {
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des inscription   *****************/
-        final List<Subscription> subscriptions = this.subscriptionService.findAll();
-        model.addAttribute("subscriptions", subscriptions);
-        String content="subscription/index";
+        model.addAttribute("subscriptions", this.subscriptionService.findAll());
         /***********  Ajout d'une inscription ****************/
-        String action="/subscription/create";
-        model.addAttribute("action",action);
+        model.addAttribute("action","/subscription/create");
         model.addAttribute("Subscription", new Subscription());
         /*************   Title and Content html*******************************/
-        String title="Inscription";
-        model.addAttribute("title", title);
-        model.addAttribute("content", content);
+        model.addAttribute("title", "Inscription");
+        model.addAttribute("content", "subscription/index");
+        model.addAttribute("urlSubscription","subscriprion");
         return "base";
     }
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -44,14 +41,11 @@ public class SubscriptionController {
         if (bindingResult.hasErrors()) {
             /***********  errors subscription create ****************/
             LOGGER.info("-----------> errors subscription create");
-            String action="/subscription/create";
-            model.addAttribute("action",action);
+            model.addAttribute("action","/subscription/create");
             model.addAttribute("Subscription", subscription);
             /*************   Title and Content html*******************************/
-            String title="Inscription";
-            model.addAttribute("title", title);
-            String content="subscription/index";
-            model.addAttribute("content", content);
+            model.addAttribute("title", "Inscription");
+            model.addAttribute("content", "subscription/index");
             return "base";
         }
         subscriptionService.save(subscription);
