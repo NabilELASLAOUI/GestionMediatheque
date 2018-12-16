@@ -82,17 +82,17 @@
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody th:each="user : ${users}">
                                                 <tr>
-                                                    <td>1</span></td>
-                                                    <td>ELASLAOUI</span></td>
-                                                    <td>nabil.elaslaoui@uha.fr</span></td>
-                                                    <td>06 63 73 18 71</span></td>
-                                                    <td>Etudiant</span></td>
+                                                    <td><span th:text="${user.userId}"></span></td>
+                                                    <td><span th:text="${user.userName}"></span></td>
+                                                    <td><span th:text="${user.userMail}"></span></td>
+                                                    <td><span th:text="${user.userAddress}"></span></td>
+                                                    <td><span th:text="${user.userPhone}"></span></span></td>
+                                                    <td><span th:text="${user.roles.roleName}"></span></span></td>
                                                     <td>
-                                                <!--        <a th:href="@{/user/edit(id=${user.userId})}">Modifier</a>|
+                                                        <a th:href="@{/user/edit(id=${user.userId})}">Modifier</a>|
                                                         <a th:href="@{'/user/delete/' + ${user.userId}}">Supprimer</a>
-                                                        --->
                                                     </td>
                                                 </tr>
                                                 </tbody>
