@@ -1,6 +1,7 @@
 package fr.miage.core.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -11,20 +12,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @NotNull
     @Column(name="userName")
     private String userName;
 
+    @NotNull
     @Column(name="userMail")
     private String userMail;
-
+    @NotNull
     @Column(name="userPassword")
     private String userPassword;
 
+    @NotNull
     @Column(name="userAddress")
     private String userAddress;
 
+    @NotNull
     @Column(name="userPhone")
     private String userPhone;
+
 
     @ManyToOne
     @JoinColumn(name="roleId")

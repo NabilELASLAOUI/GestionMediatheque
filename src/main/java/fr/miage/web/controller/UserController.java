@@ -60,6 +60,19 @@ public class UserController {
         userService.save(user);
         return "redirect:/user";
     }
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String edit(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("User", userService.findByuserId(id));
+        model.addAttribute("roles", roleService.findAll());
+        String action="/user/create";
+        model.addAttribute("action",action);
+        /*************   Title and Content html*******************************/
+        String title="Modification";
+        model.addAttribute("title", title);
+        String content="user/index";
+        model.addAttribute("content", content);
+        return "base";
+    }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {

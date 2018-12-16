@@ -1,16 +1,12 @@
 package fr.miage.core.service.impl;
 
-import fr.miage.core.entity.Customer;
 import fr.miage.core.entity.User;
-import fr.miage.core.repository.CustomerRepository;
 import fr.miage.core.repository.UserRepository;
-import fr.miage.core.service.CustomerService;
 import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,13 +32,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
-        final Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user.get();
-        }
-        return null;
+    public User findByuserId(Long id) {
+        return userRepository.findByuserId(id);
     }
+
 
     @Override
     public User findByUserName(String name) {

@@ -89,7 +89,7 @@
                                                     <td><span th:text="${user.userMail}"></span></td>
                                                     <td><span th:text="${user.userAddress}"></span></td>
                                                     <td><span th:text="${user.userPhone}"></span></span></td>
-                                                    <td><span th:text="${user.roles.roleName}"></span></span></td>
+                                                    <td><span th:text="${user.roles}"></span></span></td>
                                                     <td>
                                                         <a th:href="@{/user/edit(id=${user.userId})}">Modifier</a>|
                                                         <a th:href="@{'/user/delete/' + ${user.userId}}">Supprimer</a>
