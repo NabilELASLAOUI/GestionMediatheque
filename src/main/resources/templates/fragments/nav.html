@@ -229,7 +229,7 @@
                 <a href="#"><i class="fa fa-sitemap"></i> Media <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">Ajouter un Méddia</a>
+                        <a href="#">Ajouter un Média</a>
                     </li>
                     <li>
                         <a href="#">Liste des Média</a>
@@ -253,10 +253,10 @@
                         <a  th:href="@{/user}">Liste des utilisateurs</a>
                     </li>
                     <li>
-                        <a href="#">Rôles<span class="fa arrow"></span></a>
+                        <a th:class="${urlRole} ? 'active-menu' : 'nav-link'" th:href="@{/role}"><i class="fa fa-sitemap"></i> Roles <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li>
-                                <a href="#">Ajouter un Rôle</a>
+                                <a  th:href="@{/role}">Ajouter un Rôle</a>
                             </li>
                             <li>
                                 <a href="#">Voir Les Rôles</a>
