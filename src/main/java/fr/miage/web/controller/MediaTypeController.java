@@ -18,6 +18,59 @@ public class MediaTypeController {
     @Autowired
     MediaTypeService mediatypeService;
 
+    @RequestMapping(method = RequestMethod.GET)
+    public String index(Model model) {
+        /***********  List des roles   *****************/
+        model.addAttribute("mediatypes", this.mediatypeService.findAll());
+        /***********  Ajout d'un role ****************/
+        model.addAttribute("action","/mediatype/create");
+        model.addAttribute("MediaType", new MediaType());
+        model.addAttribute("mediatypes", mediatypeService.findAll());
+        /*************   Title and Content html*******************************/
+        model.addAttribute("title", "Mediatypes");
+        model.addAttribute("content", "media/index");
+        model.addAttribute("urlMediatype","mediatypes");
+        return "base";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String submitCreate(@Valid @ModelAttribute MediaType mediaType, BindingResult bindingResult, Model model) {
+        //LOGGER.info("******* create User *******");
+        if (bindingResult.hasErrors()) {
+            /***********  errors user create ****************/
+            //LOGGER.info("-----------> errors user create");
+            model.addAttribute("action","/mediaType/create");
+            model.addAttribute("Mediatype", mediaType);
+            /*************   Title and Content html*******************************/
+            model.addAttribute("title", "Mediatypes");
+            model.addAttribute("content", "mediatype/index");
+            return "base";
+        }
+        // TO DO
+        // Encrypt password
+        // user.setUserPassword();
+        mediatypeService.save(mediaType);
+        return "redirect:/mediaType";
+    }
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String edit(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("Mediatype", mediatypeService.findById(id));
+        model.addAttribute("mediatypes", mediatypeService.findAll());
+        String action="/mediatype/create";
+        model.addAttribute("action",action);
+        /*************   Title and Content html*******************************/
+        String title="Modification";
+        model.addAttribute("title", title);
+        String content="mediatype/index";
+        model.addAttribute("content", content);
+        return "base";
+    }
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable("id") Long id) {
+        mediatypeService.delete(id);
+        return "redirect:/mediatype";
+    }
+    /*
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
         final List<MediaType> mediatypes = this.mediatypeService.findAll();

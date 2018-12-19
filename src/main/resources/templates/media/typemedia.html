@@ -40,23 +40,18 @@
                                                 <tr>
                                                     <th>Id</th>
                                                     <th>Nom</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
-                                                <tr >
-                                                    <td>1</td>
-                                                    <td>Video</td>
-
+                                                <tbody th:each="mediatype : ${mediatypes}">
+                                                <tr>
+                                                    <td><span th:text="${mediatype.id}"></span></td>
+                                                    <td><span th:text="${mediatype.typeName}"></span></td>
+                                                    <td>
+                                                        <a th:href="@{/mediatype/edit(id=${mediatype.id})}">Modifier</a>|
+                                                        <a th:href="@{'/mediatype/delete/' + ${mediatype.typeName}}">Supprimer</a>
+                                                    </td>
                                                 </tr>
-                                                <tr c>
-                                                    <td>2</td>
-                                                    <td>Audio</td>
-
-                                                </tr>
-
-
-
-
                                                 </tbody>
                                             </table>
                                         </div>

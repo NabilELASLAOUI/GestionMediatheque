@@ -226,47 +226,31 @@
                 <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/}"><i class="fa fa-dashboard"></i> Accueil</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-sitemap"></i> Media <span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-list-alt"></i> Média <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">Ajouter un Média</a>
+                        <a href="#">G-Média</a>
                     </li>
-                    <li>
-                        <a href="#">Liste des Média</a>
-                    </li>
-                    <li>
-                        <a href="#">Type de Média<span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level">
-                            <li>
-                                <a th:href="@{/mediatype/create}">Type de Méddia</a>
-                            </li>
 
-                        </ul>
+                    <li>
+                        <a th:class="${urlMediatype} ? 'active-menu' : 'nav-link'" th:href="@{/mediatype}"><i class="fa fa-paperclip"></i> Type de Média </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a th:class="${urlUser} ? 'active-menu' : 'nav-link'" th:href="@{/user}"><i class="fa fa-user"></i> Utilisateurs <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a  th:href="@{/user}">G-utilisateurs</a>
+                    </li>
+                    <li>
+                        <a th:class="${urlRole} ? 'active-menu' : 'nav-link'" th:href="@{/role}"><i class="fa fa-paperclip"></i> G-Roles </a>
 
                     </li>
                 </ul>
             </li>
             <li>
-                <a th:class="${urlUser} ? 'active-menu' : 'nav-link'" th:href="@{/user}"><i class="fa fa-sitemap"></i> Utilisateurs <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a  th:href="@{/user}">Liste des utilisateurs</a>
-                    </li>
-                    <li>
-                        <a th:class="${urlRole} ? 'active-menu' : 'nav-link'" th:href="@{/role}"><i class="fa fa-sitemap"></i> Roles <span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level">
-                            <li>
-                                <a  th:href="@{/role}">Ajouter un Rôle</a>
-                            </li>
-                            <li>
-                                <a href="#">Voir Les Rôles</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-sitemap"></i> Inscription</span></a>
+                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Inscription</span></a>
             </li>
         </ul>
 
