@@ -58,12 +58,12 @@ public class RoleController {
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("Role", roleService.findById(id));
         model.addAttribute("roles", roleService.findAll());
-        String action="/user/create";
+        String action="/role/create";
         model.addAttribute("action",action);
         /*************   Title and Content html*******************************/
         String title="Modification";
         model.addAttribute("title", title);
-        String content="user/index";
+        String content="role/index";
         model.addAttribute("content", content);
         return "base";
     }
