@@ -20,8 +20,8 @@ public class User {
     @Column(name="userMail")
     private String userMail;
     @NotNull
-    @Column(name="userPassword")
-    private String userPassword;
+    @Column(name="Password")
+    private String Password;
 
     @NotNull
     @Column(name="userAddress")
@@ -46,7 +46,7 @@ public class User {
         this.userId = userid;
         this.userName = username;
         this.userMail = usermail;
-        this.userPassword = userpassword;
+        this.Password = userpassword;
         this.userAddress = useraddress;
         this.userPhone = userphone ;
         this.roles = roles;
@@ -64,8 +64,8 @@ public class User {
         return userMail;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getPassword() {
+        return Password;
     }
 
     public String getUserAddress() {
@@ -92,8 +92,8 @@ public class User {
         this.userMail = userMail;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPassword(String userPassword) {
+        this.Password = userPassword;
     }
 
     public void setUserAddress(String userAddress) {

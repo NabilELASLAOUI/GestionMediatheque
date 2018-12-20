@@ -24,6 +24,9 @@ public class UserController {
     @Autowired
     RoleService roleService;
 
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
     @RequestMapping(method = RequestMethod.GET)
@@ -56,6 +59,7 @@ public class UserController {
         }
         // TO DO
         // Encrypt password
+
        // user.setUserPassword();
         userService.save(user);
         return "redirect:/user";
