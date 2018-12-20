@@ -31,6 +31,8 @@ public class User {
     @Column(name="userPhone")
     private String userPhone;
 
+    @Column(name = "enabled")
+    private boolean enabled;
 
     @ManyToOne
     @JoinColumn(name="roleId")
@@ -40,7 +42,8 @@ public class User {
     @JoinColumn(name="subscriptionId")
     private Subscription subscription;
 
-    public User() { }
+    public User() {
+    }
 
     public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Role roles) {
         this.userId = userid;
@@ -50,6 +53,7 @@ public class User {
         this.userAddress = useraddress;
         this.userPhone = userphone ;
         this.roles = roles;
+        this.enabled=false;
     }
 
     public Long getUserId() {
@@ -106,6 +110,14 @@ public class User {
 
     public void setRoles(Role roles) {
         this.roles = roles;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean setEnabled(boolean enabled) {
+       return this.enabled = enabled;
     }
 
     public void setSubscription(Subscription subscription) {
