@@ -87,6 +87,22 @@ public class UserController {
         return "redirect:/user";
     }
 
+    // Recherche par nom
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String search(@RequestParam("userName") String userName, Model model) {
+        /***********  List des users   *****************/
+        model.addAttribute("users", this.userService.findByUserName(userName));
+        /***********  Ajout d'un user ****************/
+        model.addAttribute("action","/user/create");
+        model.addAttribute("User", new User());
+        model.addAttribute("roles", roleService.findAll());
+        /*************   Title and Content html*******************************/
+        model.addAttribute("title", "Utilisateurs");
+        model.addAttribute("content", "user/index");
+        model.addAttribute("urlUser","utilisateurs");
+        return "base";
+    }
+
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("User", userService.findByuserId(id));
