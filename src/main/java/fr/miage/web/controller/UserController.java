@@ -10,13 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 
@@ -32,6 +31,7 @@ public class UserController {
 
     @Autowired
     ApplicationEventPublisher eventPublisher;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
@@ -77,6 +77,7 @@ public class UserController {
         return "redirect:/user";
     }
 
+    @Transactional
     @RequestMapping(value = "/regitrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 
