@@ -7,19 +7,24 @@
                 <div class="row">
                     <div class="col-lg-offset-1 col-lg-4">
                         <h3 class="panel-heading">
-                            Ajout d'un Type de Média
+                            Inscription
                         </h3>
-                        <form  th:action="${action}" th:object="${mediatype}" method="post" class="form-horizontal"role="form">
-                            <input type="hidden" th:field="*{id}"/>
-
+                        <form  th:action="${action}" th:object="${Subscription}" method="post" class="form-horizontal"role="form">
+                            <input type="hidden" th:field="*{subscriptionId}"/>
                             <div class="form-group">
-                                <label for="typeName" >Nom du Type</label>
+                                <label for="typeName" >Date de début</label>
                                 <div>
-                                    <input class="form-control" id="typeName" type="text" th:field="*{typeName}" th:placeholder="#{typeName}" />
-                                    <span th:if="${#fields.hasErrors('typeName')}" th:errors="*{typeName}">Field name has errors</span>
+                                    <input class="form-control" id="typeName" type="datetime-local" th:field="*{beginningDate}" th:placeholder="#{beginningDate}" />
+                                    <span th:if="${#fields.hasErrors('beginningDate')}" th:errors="*{beginningDate}">Field name has errors</span>
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label for="typeName" >Date du Fin</label>
+                                <div>
+                                    <input class="form-control" id="typeName" type="datetime-local" th:field="*{endDate}" th:placeholder="#{endDate}" />
+                                    <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Field name has errors</span>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-default">Enregistrer</button>
                             <button type="reset" class="btn btn-default">Annuler</button>
                         </form>
@@ -31,7 +36,7 @@
                                 <!-- Advanced Tables -->
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        Les Types de Média
+                                        Les inscriptions
                                     </div>
                                     <div class="panel-body">
                                         <div class="table-responsive">
@@ -39,17 +44,19 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Id</th>
-                                                    <th>Nom</th>
+                                                    <th>Date de début</th>
+                                                    <th>Date du fin</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody th:each="mediatype : ${mediatypes}">
+                                                <tbody th:each="subscription : ${subscriptions}">
                                                 <tr>
-                                                    <td><span th:text="${mediatype.id}"></span></td>
-                                                    <td><span th:text="${mediatype.typeName}"></span></td>
+                                                    <td><span th:text="${subscription.subscriptionId}"></span></td>
+                                                    <td><span th:text="${subscription.beginningDate}"></span></td>
+                                                    <td><span th:text="${subscription.endDate}"></span></td>
                                                     <td>
-                                                        <a th:href="@{/mediatype/edit(id=${mediatype.id})}">Modifier</a>|
-                                                        <a th:href="@{'/mediatype/delete/' + ${mediatype.typeName}}">Supprimer</a>
+                                                        <a th:href="@{/subscription/edit(id=${subscription.subscriptionId})}">Modifier</a>|
+                                                        <a th:href="@{'/subscription/delete/' + ${subscription.subscriptionId}}">Supprimer</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>

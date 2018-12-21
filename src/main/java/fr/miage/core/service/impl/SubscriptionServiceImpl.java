@@ -31,13 +31,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription findById(Long id) {
-        final Optional<Subscription> media= subscriptionRepository.findById(id);
-        if(media.isPresent()){
-            return media.get();
-        }
-        return null;
+    public Subscription findBySubscriptionId(Long id) {
+        return subscriptionRepository.findBySubscriptionId(id);
     }
+
 
     @Override
     public List<Subscription> findByBeginningDate(Date date) {

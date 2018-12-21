@@ -9,4 +9,5 @@ import java.util.List;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
     List<Subscription> findByBeginningDate(Date date);
     List<Subscription> findByEndDate(Date date);
+    Subscription findBySubscriptionId(Long id);
 }
