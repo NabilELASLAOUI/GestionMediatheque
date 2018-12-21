@@ -32,7 +32,7 @@ public class MediaTypeController {
         return "base";
     }
 
-   /* @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute MediaType mediatype, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
@@ -70,5 +70,5 @@ public class MediaTypeController {
     public String delete(@PathVariable("id") Long id) {
         mediatypeService.delete(id);
         return "redirect:/create";
-    }*/
+    }
 }
