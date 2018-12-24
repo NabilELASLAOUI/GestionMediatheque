@@ -99,6 +99,17 @@ public class MediaController {
         return "base";
     }
 
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("media", mediaService.findByMediaId(id));
+        model.addAttribute("mediaTypes", mediaTypeService.findAll());
+        String title="Detail";
+        model.addAttribute("title", title);
+        String content="media/detail";
+        model.addAttribute("content", content);
+        return "base";
+    }
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         mediaService.delete(id);
