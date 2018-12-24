@@ -8,8 +8,9 @@ import java.util.List;
 @Table(name="MEDIATYPE")
 public class MediaType {
     @Id
+    @Column(name="typeId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long typeId;
 
     @Column(name="typeName")
     private String typeName;
@@ -29,12 +30,12 @@ public class MediaType {
         this.typeName = typeName;
     }
 
-    public Long getId() {
-        return id;
+    public Long getTypeId() {
+        return typeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 
     public String getTypeName() {

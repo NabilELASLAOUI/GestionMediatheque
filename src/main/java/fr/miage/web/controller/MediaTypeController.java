@@ -20,15 +20,15 @@ public class MediaTypeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
-        /***********  List des roles   *****************/
+        /***********  List des types de media   *****************/
         model.addAttribute("mediatypes", this.mediatypeService.findAll());
-        /***********  Ajout d'un role ****************/
+        /***********  Ajout d'un type de media ****************/
         model.addAttribute("action","/mediatype/create");
         model.addAttribute("MediaType", new MediaType());
         model.addAttribute("mediatypes", mediatypeService.findAll());
         /*************   Title and Content html*******************************/
-        model.addAttribute("title", "Mediatypes");
-        model.addAttribute("content", "media/index");
+        model.addAttribute("title", "Media types");
+        model.addAttribute("content", "mediatype/index");
         model.addAttribute("urlMediatype","mediatypes");
         return "base";
     }
@@ -37,24 +37,22 @@ public class MediaTypeController {
     public String submitCreate(@Valid @ModelAttribute MediaType mediaType, BindingResult bindingResult, Model model) {
         //LOGGER.info("******* create User *******");
         if (bindingResult.hasErrors()) {
-            /***********  errors user create ****************/
-            //LOGGER.info("-----------> errors user create");
+            /***********  errors media type ****************/
+            //LOGGER.info("-----------> errors media type create");
             model.addAttribute("action","/mediaType/create");
-            model.addAttribute("Mediatype", mediaType);
+            model.addAttribute("MediaType", mediaType);
             /*************   Title and Content html*******************************/
             model.addAttribute("title", "Mediatypes");
             model.addAttribute("content", "mediatype/index");
             return "base";
         }
-        // TO DO
-        // Encrypt password
-        // user.setUserPassword();
+
         mediatypeService.save(mediaType);
-        return "redirect:/mediaType";
+        return "redirect:/mediatype";
     }
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("Mediatype", mediatypeService.findById(id));
+        model.addAttribute("MediaType", mediatypeService.findByTypeId(id));
         model.addAttribute("mediatypes", mediatypeService.findAll());
         String action="/mediatype/create";
         model.addAttribute("action",action);
@@ -65,63 +63,11 @@ public class MediaTypeController {
         model.addAttribute("content", content);
         return "base";
     }
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         mediatypeService.delete(id);
         return "redirect:/mediatype";
     }
-    /*
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(Model model) {
-        final List<MediaType> mediatypes = this.mediatypeService.findAll();
-        String action="/mediatype/add";
-        model.addAttribute("action",action);
-        model.addAttribute("mediatypes", mediatypes);
-        model.addAttribute("mediatype", new MediaType());
-        String content="media/typemedia";
-        String title="Type de Media";
-        model.addAttribute("title", title);
-        model.addAttribute("content", content);
-        return "base";
-    }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String submitCreate(@Valid @ModelAttribute MediaType mediatype, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            final List<MediaType> mediatypes = this.mediatypeService.findAll();
-            model.addAttribute("mediatypes", mediatypes);
-            return "media/typemedia";
-        }
-
-        mediatypeService.save(mediatype);
-        return "redirect:/create";
-    }
-
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String edit(@RequestParam("id") Long id, Model model) {
-        String action="edit";
-        model.addAttribute(action);
-        model.addAttribute("mediatype", this.mediatypeService.findById(id));
-        return "media/typemedia";
-    }
-
-    @RequestMapping(value = "/doEdit", method = RequestMethod.POST)
-    public String submitEdit(@Valid @ModelAttribute MediaType mediatype, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            final List<MediaType> mediatypes = this.mediatypeService.findAll();
-            model.addAttribute("mediatypes", mediatypes);
-            return "media/typemedia";
-        }
-
-        mediatypeService.save(mediatype);
-        return "redirect:/types";
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable("id") Long id) {
-        mediatypeService.delete(id);
-        return "redirect:/create";
-    }
 }
