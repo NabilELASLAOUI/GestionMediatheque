@@ -9,8 +9,9 @@ import javax.validation.constraints.Size;
 public class Media {
 
     @Id
+    @Column(name="mediaId")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private Long mediaId;
 
     @NotNull
     @Size(min=5, max=30)
@@ -31,12 +32,20 @@ public class Media {
     @Size(min=5, max=30)
     private String mediaAuthor;
 
-    public Long getId() {
-        return id;
+    public Long getMediaId() {
+        return mediaId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMediaId(Long mediaId) {
+        this.mediaId = mediaId;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
     }
 
     public String getMediaTitle() {
@@ -73,7 +82,7 @@ public class Media {
 
     @ManyToOne
     @JoinColumn(name = "typeId", nullable = false)
-    private MediaType type;
+    private MediaType mediaType;
 
     public Media() {}
 
@@ -82,15 +91,13 @@ public class Media {
         this.mediaDescription=mediaDescription;
         this.mediaAuthor= mediaAuthor;
         this.mediaStatus=true;
-        this.type= type;
+        this.mediaType= type;
     }
-
-
 
 
     @Override
     public String toString() {
-        return String.format("Media[id=%d, name='%s']", id, mediaTitle);
+        return String.format("Media[id=%d, name='%s']", mediaId, mediaTitle);
     }
 
 }

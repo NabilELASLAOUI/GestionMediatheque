@@ -1,0 +1,52 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- Advanced Tables -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+               Listes Des Medias
+                <a th:href="@{/media/add}"><button class="btn btn-primary pull-right">Ajouter un Media</button></a>
+
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>Titre du Media</th>
+                            <th>Type de Media</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                            <th>Auteur</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  th:each="media : ${medias}">
+                            <td><span th:text="${media.mediaTitle}"></span></td>
+                            <td><span th:text="${media.mediaType.typeName}"></span></td>
+                            <td><span th:text="${media.mediaDescription}"></span></td>
+                            <td><span th:text="${media.mediaStatus}==true ? 'Disponible':'Indisponible'"></span></td>
+                            <td><span th:text="${media.mediaAuthor}"></span></td>
+                            <td>
+                                <a th:href="@{/media/edit(id=${media.mediaId})}">Modifier</a>|
+                                <a th:onclick="'deleteMedia(\'' + ${media.mediaId} + '\');'">Supprimer</a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!--End Advanced Tables -->
+    </div>
+</div>
+<script type="text/javascript">
+    function deleteMedia(id){
+
+        if(confirm("Souhaitez-vous vraiment supprimer ce element ?"))
+            window.location.href="media/delete/"+id;
+    }
+</script>

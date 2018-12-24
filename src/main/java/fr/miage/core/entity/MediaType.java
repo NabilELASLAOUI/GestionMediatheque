@@ -15,7 +15,7 @@ public class MediaType {
     @Column(name="typeName")
     private String typeName;
 
-    @OneToMany(mappedBy = "type")
+    @OneToMany(mappedBy = "mediaType")
     private List<Media> medias;
 
     public MediaType(){}

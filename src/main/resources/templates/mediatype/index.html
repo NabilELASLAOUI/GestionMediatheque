@@ -57,8 +57,8 @@
                             <th>Action</th>
                         </tr>
                         </thead>
-                        <tbody th:each="mediatype : ${mediatypes}">
-                        <tr>
+                        <tbody>
+                        <tr  th:each="mediatype : ${mediatypes}">
                             <td><span th:text="${mediatype.typeId}"></span></td>
                             <td><span th:text="${mediatype.typeName}"></span></td>
                             <td>

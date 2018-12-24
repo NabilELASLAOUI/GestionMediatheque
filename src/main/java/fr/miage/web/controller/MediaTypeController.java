@@ -21,7 +21,7 @@ public class MediaTypeController {
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des types de media   *****************/
-        model.addAttribute("mediatypes", this.mediatypeService.findAll());
+       // model.addAttribute("mediatypes", this.mediatypeService.findAll());
         /***********  Ajout d'un type de media ****************/
         model.addAttribute("action","/mediatype/create");
         model.addAttribute("MediaType", new MediaType());

@@ -8,6 +8,6 @@ public interface MediaService {
     Media save(Media entity);
     void delete(Long id);
     List<Media> findAll();
-    Media findById(Long id);
+    Media findByMediaId(Long id);
     Media findByMediaTitle(String name);
 }
