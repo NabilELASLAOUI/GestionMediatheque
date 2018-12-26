@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading"> Inscription <span class="pull-right smenu"><a th:href="@{/}">Accueil <i class="fa fa-arrow-right"></i></a><a th:href="@{/user}">Utilisateurs </a></span></div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-offset-1 col-lg-8">
+                         <p  th:text="${' Id :       ' + subscription.subscriptionId}"></p>
+                         <p  th:text="${' Date de début :        ' + subscription.beginningDate}"></p>
+                         <p  th:text="${' Date de fin :  ' + subscription.endDate}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

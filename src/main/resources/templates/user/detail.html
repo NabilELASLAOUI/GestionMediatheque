@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading"> Client <span class="pull-right smenu"><a th:href="@{/}">Accueil <i class="fa fa-arrow-right"></i></a><a th:href="@{/user}">Utilisateurs </a></span></div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-offset-1 col-lg-8">
+                        <p  th:text="${' Nom :        ' + user.userName}"></p>
+                                 <p  th:text="${' Email :  ' + user.userMail}"></p>
+                                 <p  th:text="${' Adresse :       ' + user.userAddress}"></p>
+                                 <p  th:text="${' Téléphone :       ' + user.userPhone}"></p>
+                                 <p  th:text="${' Role :       ' + user.roles.roleName}"></p>
+                                 <p><a th:href="@{/subscription/detail(id=${user.subscription.subscriptionId})}">Détail de l'abonnement</a></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

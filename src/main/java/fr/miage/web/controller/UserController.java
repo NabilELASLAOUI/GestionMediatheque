@@ -1,6 +1,7 @@
 package fr.miage.web.controller;
 
 
+import fr.miage.core.entity.Media;
 import fr.miage.core.entity.User;
 import fr.miage.core.entity.VerificationToken;
 import fr.miage.core.service.RoleService;
@@ -39,14 +40,24 @@ public class UserController {
     public String index(Model model) {
         /***********  List des users   *****************/
         model.addAttribute("users", this.userService.findAll());
-        /***********  Ajout d'un user ****************/
-        model.addAttribute("action","/user/create");
         model.addAttribute("User", new User());
-        model.addAttribute("roles", roleService.findAll());
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/index");
         model.addAttribute("urlUser","utilisateurs");
+        return "base";
+    }
+
+    @RequestMapping(value = "/add",method = RequestMethod.GET)
+    public String addMedia(Model model) {
+        /*************   add a media*******************************/
+        model.addAttribute("action","/user/create");
+        model.addAttribute("User", new User());
+        model.addAttribute("roles", roleService.findAll());
+        /*************   Title and Content html*******************************/
+        model.addAttribute("title", "Medias");
+        model.addAttribute("content", "user/add");
+        model.addAttribute("urlMedia","user");
         return "base";
     }
 
@@ -121,6 +132,17 @@ public class UserController {
     public String delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/user";
+    }
+
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", userService.findByuserId(id));
+        model.addAttribute("roles", roleService.findAll());
+        String title="Detail";
+        model.addAttribute("title", title);
+        String content="user/detail";
+        model.addAttribute("content", content);
+        return "base";
     }
 }
 
