@@ -20,6 +20,10 @@ public class Subscription {
     private Long subscriptionId;
 
     @NotNull
+    @Column(name="titre")
+    private String titre;
+
+    @NotNull
     @Column(name="beginningDate")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime beginningDate;
@@ -55,6 +59,14 @@ public class Subscription {
     public Subscription(LocalDateTime beginningDate, LocalDateTime endDate) {
         this.beginningDate = beginningDate;
         this.endDate = endDate;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
     public void setBeginningDate(LocalDateTime beginningDate) {
