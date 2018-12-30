@@ -69,4 +69,14 @@ public class SubscriptionController {
         subscriptionService.delete(id);
         return "redirect:/subscription";
     }
+
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("subscription", subscriptionService.findBySubscriptionId(id));
+        String title="Detail";
+        model.addAttribute("title", title);
+        String content="subscription/detail";
+        model.addAttribute("content", content);
+        return "base";
+    }
 }

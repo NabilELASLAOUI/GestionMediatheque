@@ -30,7 +30,7 @@ public class MeidaTypeImpl implements MediaTypeService {
     }
 
     @Override
-    public MediaType findById(Long id) {
+    public MediaType findByTypeId(Long id) {
         final Optional<MediaType> mediaType = mediaTypeRepository.findById(id);
         if (mediaType.isPresent()) {
             return mediaType.get();

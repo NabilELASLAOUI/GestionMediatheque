@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User findByUserName(String name) {
+    public Optional<User> findByUserName(String name) {
         return userRepository.findByUserName(name);
     }
 

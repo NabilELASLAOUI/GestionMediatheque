@@ -15,8 +15,8 @@ public class Role {
     @Column(name="roleName")
     private String roleName;
 
-    @OneToMany(mappedBy = "roles")
-    private final List<User> users = new LinkedList<>();
+   // @OneToMany(mappedBy = "roles")
+   // private final List<User> users = new LinkedList<>();
 
     public Role() { }
     public Role(Long roleId,String roleName) {
@@ -32,9 +32,9 @@ public class Role {
         return roleName;
     }
 
-    public List<User> getUsers() {
+   /* public List<User> getUsers() {
         return users;
-    }
+    }*/
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;

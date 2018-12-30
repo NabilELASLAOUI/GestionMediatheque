@@ -3,6 +3,7 @@ package fr.miage.core.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="USER")
@@ -34,9 +35,9 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @ManyToOne
-    @JoinColumn(name="roleId")
-    private Role roles;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     @ManyToOne
     @JoinColumn(name="subscriptionId")
@@ -44,8 +45,18 @@ public class User {
 
     public User() {
     }
+    User(User user){
+        this.userId = user.getUserId();
+        this.userName = user.getUserName();
+        this.userMail = user.getUserMail();
+        this.Password = user.getPassword();
+        this.userAddress = user.getUserAddress();
+        this.userPhone = user.getUserPhone();
+        this.roles = user.getRoles();
+        this.enabled=user.isEnabled();
+    }
 
-    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Role roles) {
+    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Set<Role> roles) {
         this.userId = userid;
         this.userName = username;
         this.userMail = usermail;
@@ -80,7 +91,7 @@ public class User {
         return userPhone;
     }
 
-    public Role getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
@@ -108,7 +119,7 @@ public class User {
         this.userPhone = userPhone;
     }
 
-    public void setRoles(Role roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

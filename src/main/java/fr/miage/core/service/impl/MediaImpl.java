@@ -4,10 +4,12 @@ import fr.miage.core.entity.Media;
 import fr.miage.core.repository.MediaRepository;
 import fr.miage.core.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class MediaImpl implements MediaService {
     @Autowired
     MediaRepository mediaRepository;
@@ -28,7 +30,7 @@ public class MediaImpl implements MediaService {
     }
 
     @Override
-    public Media findById(Long id) {
+    public Media findByMediaId(Long id) {
         final Optional<Media> media= mediaRepository.findById(id);
         if(media.isPresent()){
             return media.get();

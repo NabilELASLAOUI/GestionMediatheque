@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -35,18 +36,30 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
+    //@PreAuthorize("hasAnyRole('Admin')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des users   *****************/
         model.addAttribute("users", this.userService.findAll());
-        /***********  Ajout d'un user ****************/
-        model.addAttribute("action","/user/create");
         model.addAttribute("User", new User());
-        model.addAttribute("roles", roleService.findAll());
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/index");
         model.addAttribute("urlUser","utilisateurs");
+        return "base";
+    }
+
+   // @PreAuthorize("hasAnyRole('ADMIN')")
+    @RequestMapping(value = "/add",method = RequestMethod.GET)
+    public String addMedia(Model model) {
+        /*************   add a media*******************************/
+        model.addAttribute("action","/user/create");
+        model.addAttribute("User", new User());
+        model.addAttribute("roles", roleService.findAll());
+        /*************   Title and Content html*******************************/
+        model.addAttribute("title", "Medias");
+        model.addAttribute("content", "user/add");
+        model.addAttribute("urlMedia","user");
         return "base";
     }
 
@@ -121,6 +134,17 @@ public class UserController {
     public String delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/user";
+    }
+
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", userService.findByuserId(id));
+        model.addAttribute("roles", roleService.findAll());
+        String title="Detail";
+        model.addAttribute("title", title);
+        String content="user/detail";
+        model.addAttribute("content", content);
+        return "base";
     }
 }
 
