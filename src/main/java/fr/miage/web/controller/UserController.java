@@ -1,6 +1,7 @@
 package fr.miage.web.controller;
 
 
+import fr.miage.core.entity.Media;
 import fr.miage.core.entity.User;
 import fr.miage.core.entity.VerificationToken;
 import fr.miage.core.service.RoleService;
@@ -49,7 +50,10 @@ public class UserController {
         return "base";
     }
 
+<<<<<<< HEAD
    // @PreAuthorize("hasAnyRole('ADMIN')")
+=======
+>>>>>>> 347036bc8c66e33e888ee9eb0f1c4d2498b01879
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addMedia(Model model) {
         /*************   add a media*******************************/

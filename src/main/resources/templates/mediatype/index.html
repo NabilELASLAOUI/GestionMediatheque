@@ -7,10 +7,10 @@
                 <div class="row">
                     <div class="col-lg-offset-1 col-lg-4">
                         <h3 class="panel-heading">
-                            Création d'un type :
+                            Création d'un mediatype :
                         </h3>
-                        <form  th:action="${action}" th:object="${Mediatype}" method="post" class="form-horizontal"role="form">
-                            <input type="hidden" th:field="*{id}"/>
+                        <form  th:action="${action}" th:object="${MediaType}" method="post" class="form-horizontal" role="form">
+                            <input type="hidden" th:field="*{typeId}"/>
                             <div class="form-group">
                                 <label for="typeName" >Nom :</label>
                                 <div>
@@ -25,12 +25,12 @@
                         </form>
                     </div>
                 </div>
-                    <!-- /.col-lg-6 (nested) -->
+                <!-- /.col-lg-6 (nested) -->
 
 
-                        <!-- /. ROW  -->
+                <!-- /. ROW  -->
 
-                    <!-- /.col-lg-6 (nested) -->
+                <!-- /.col-lg-6 (nested) -->
 
                 <!-- /.row (nested) -->
             </div>
@@ -45,7 +45,7 @@
         <!-- Advanced Tables -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                Les roles
+                Les mediatypes
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -57,13 +57,13 @@
                             <th>Action</th>
                         </tr>
                         </thead>
-                        <tbody th:each="mediatype : ${mediatypes}">
-                        <tr>
-                            <td><span th:text="${mediatype.id}"></span></td>
+                        <tbody>
+                        <tr  th:each="mediatype : ${mediatypes}">
+                            <td><span th:text="${mediatype.typeId}"></span></td>
                             <td><span th:text="${mediatype.typeName}"></span></td>
                             <td>
-                                <a th:href="@{/mediatype/edit(id=${mediatype.id})}">Modifier</a>|
-                                <a th:href="@{'/mediatype/delete/' + ${mediatype.id}}">Supprimer</a>
+                                <a th:href="@{/mediatype/edit(id=${mediatype.typeId})}">Modifier</a>|
+                                <a th:onclick="'deleteTypeMedia(\'' + ${mediatype.typeId} + '\');'">Supprimer</a>
                             </td>
                         </tr>
                         </tbody>
@@ -75,3 +75,15 @@
         <!--End Advanced Tables -->
     </div>
 </div>
+
+<script type="text/javascript">
+    function deleteTypeMedia(id){
+
+        if(confirm("Souhaitez-vous vraiment supprimer ce element ?"))
+            window.location.href="mediatype/delete/"+id;
+    }
+</script>
+
+
+
+

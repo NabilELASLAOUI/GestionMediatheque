@@ -21,7 +21,7 @@
                 <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                <li><a th:href="@{/}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
                 </li>
                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                 </li>
@@ -44,8 +44,12 @@
             <li>
                 <a href="#"><i class="fa fa-list-alt"></i> Média <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
+
                     <li>
-                        <a href="#">G-Média</a>
+                        <a  th:class="${urlMedias} ? 'active-menu' : 'nav-link'" th:href="@{/media}"><i class="fa fa-eye"></i> Liste des Médias</a>
+                    </li>
+                    <li>
+                        <a  th:class="${urlMedia} ? 'active-menu' : 'nav-link'" th:href="@{/media/add}"><i class="fa fa-plus"></i>Ajouter un Média</a>
                     </li>
 
                     <li>
@@ -58,6 +62,7 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a  th:href="@{/user}">G-utilisateurs</a>
+
                     </li>
                     <li>
                         <a th:class="${urlRole} ? 'active-menu' : 'nav-link'" th:href="@{/role}"><i class="fa fa-paperclip"></i> G-Roles </a>

@@ -6,7 +6,10 @@ import fr.miage.core.service.MediaTypeService;
 import fr.miage.core.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+<<<<<<< HEAD
 import org.springframework.security.access.prepost.PreAuthorize;
+=======
+>>>>>>> 347036bc8c66e33e888ee9eb0f1c4d2498b01879
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +29,10 @@ public class MediaController {
     @Autowired
     MediaTypeService mediaTypeService;
 
+<<<<<<< HEAD
     //@PreAuthorize("hasAnyRole('ADMIN')")
+=======
+>>>>>>> 347036bc8c66e33e888ee9eb0f1c4d2498b01879
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des medias   *****************/
