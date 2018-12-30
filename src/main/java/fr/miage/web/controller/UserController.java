@@ -1,7 +1,6 @@
 package fr.miage.web.controller;
 
 
-import fr.miage.core.entity.Media;
 import fr.miage.core.entity.User;
 import fr.miage.core.entity.VerificationToken;
 import fr.miage.core.service.RoleService;
@@ -37,6 +36,17 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public String login(Model model) {
+        model.addAttribute("User", new User());
+        return "login";
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String loginPost() {
+        LOGGER.info("--------------> Login");
+        return "redirect:/user";
+    }
+
     @PreAuthorize("hasAnyRole('Admin')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
@@ -49,7 +59,6 @@ public class UserController {
         model.addAttribute("urlUser","utilisateurs");
         return "base";
     }
-
 
    // @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/add",method = RequestMethod.GET)

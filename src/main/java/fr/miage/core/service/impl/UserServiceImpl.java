@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         tokenRepository.save(myToken);
     }
     private boolean emailExist(String email) {
-        User user = userRepository.findByUserMail(email);
+        Optional<User> user = userRepository.findByUserMail(email);
         if (user != null) {
             return true;
         }
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserMail(String email) {
+    public Optional<User> findByUserMail(String email) {
         return userRepository.findByUserMail(email);
     }
 
