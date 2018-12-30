@@ -37,7 +37,7 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
-    //@PreAuthorize("hasAnyRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des users   *****************/
@@ -50,10 +50,8 @@ public class UserController {
         return "base";
     }
 
-<<<<<<< HEAD
+
    // @PreAuthorize("hasAnyRole('ADMIN')")
-=======
->>>>>>> 347036bc8c66e33e888ee9eb0f1c4d2498b01879
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addMedia(Model model) {
         /*************   add a media*******************************/
