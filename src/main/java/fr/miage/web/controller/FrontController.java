@@ -25,7 +25,9 @@ public class FrontController {
        model.addAttribute("content", content);
        model.addAttribute("AccueilSubscription","accueil");
        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("username", currentUser);
+        if (currentUser != "anonymousUser"){
+            model.addAttribute("username", currentUser);
+        }
         return "base";
     }
 

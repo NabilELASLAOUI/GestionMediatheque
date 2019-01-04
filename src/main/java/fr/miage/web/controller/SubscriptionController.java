@@ -37,7 +37,9 @@ public class SubscriptionController {
         model.addAttribute("content", "subscription/index");
         model.addAttribute("urlSubscription","subscriprion");
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("username", currentUser);
+        if (currentUser != "anonymousUser"){
+            model.addAttribute("username", currentUser);
+        }
         return "base";
     }
     @PreAuthorize("hasAnyRole('Admin','Employe','Client')")

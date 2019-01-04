@@ -51,7 +51,9 @@ public class UserController {
         model.addAttribute("content", "user/index");
         model.addAttribute("urlUser","utilisateurs");
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("username", currentUser);
+        if (currentUser != "anonymousUser"){
+            model.addAttribute("username", currentUser);
+        }
         return "base";
     }
 
