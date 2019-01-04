@@ -3,6 +3,7 @@ package fr.miage.web.controller;
 import fr.miage.core.entity.Subscription;
 import fr.miage.core.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ public class SubscriptionController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
+    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des inscription   *****************/
@@ -35,6 +37,7 @@ public class SubscriptionController {
         model.addAttribute("urlSubscription","subscriprion");
         return "base";
     }
+    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Subscription subscription, BindingResult bindingResult, Model model) {
         LOGGER.info("******* create subscription *******");
@@ -52,6 +55,7 @@ public class SubscriptionController {
         return "redirect:/subscription";
     }
 
+    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("Subscription", this.subscriptionService.findBySubscriptionId(id));
@@ -64,12 +68,14 @@ public class SubscriptionController {
         model.addAttribute("content", content);
         return "base";
     }
+    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         subscriptionService.delete(id);
         return "redirect:/subscription";
     }
 
+    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam("id") Long id, Model model) {
         model.addAttribute("subscription", subscriptionService.findBySubscriptionId(id));

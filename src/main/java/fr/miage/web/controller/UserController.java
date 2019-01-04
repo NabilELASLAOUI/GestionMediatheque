@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,6 +20,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 
@@ -46,8 +51,11 @@ public class UserController {
         LOGGER.info("--------------> Login");
         return "redirect:/user";
     }
-
-    @PreAuthorize("hasAnyRole('Admin')")
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public String logout() {
+        return "redirect:/";
+    }
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des users   *****************/
@@ -60,9 +68,9 @@ public class UserController {
         return "base";
     }
 
-   // @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
-    public String addMedia(Model model) {
+    public String addUser(Model model) {
         /*************   add a media*******************************/
         model.addAttribute("action","/user/create");
         model.addAttribute("User", new User());
@@ -70,7 +78,7 @@ public class UserController {
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Medias");
         model.addAttribute("content", "user/add");
-        model.addAttribute("urlMedia","user");
+        model.addAttribute("urlUSer","user");
         return "base";
     }
 
