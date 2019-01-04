@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and()
-                .formLogin().loginPage("/user/login").permitAll();
+                .formLogin().loginPage("/login").permitAll();
     }
 
     @Bean

@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -20,9 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import javax.validation.Valid;
+import java.security.Principal;
 
 
 @Controller
@@ -41,20 +39,7 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
-    public String login(Model model) {
-        model.addAttribute("User", new User());
-        return "login";
-    }
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPost() {
-        LOGGER.info("--------------> Login");
-        return "redirect:/user";
-    }
-    @RequestMapping(value = "/logout",method = RequestMethod.GET)
-    public String logout() {
-        return "redirect:/";
-    }
+
     @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
@@ -65,6 +50,8 @@ public class UserController {
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/index");
         model.addAttribute("urlUser","utilisateurs");
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("username", currentUser);
         return "base";
     }
 

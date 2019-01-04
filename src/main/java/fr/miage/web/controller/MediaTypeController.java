@@ -3,6 +3,7 @@ package fr.miage.web.controller;
 import fr.miage.core.entity.MediaType;
 import fr.miage.core.service.MediaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,8 @@ public class MediaTypeController {
         model.addAttribute("title", "Media types");
         model.addAttribute("content", "mediatype/index");
         model.addAttribute("urlMediatype","mediatypes");
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("username", currentUser);
         return "base";
     }
 

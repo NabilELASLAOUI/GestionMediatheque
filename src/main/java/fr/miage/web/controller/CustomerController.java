@@ -3,6 +3,7 @@ package fr.miage.web.controller;
 import fr.miage.core.entity.Customer;
 import fr.miage.core.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,10 @@ public class CustomerController {
     public String findAll(Model model) {
         final List<Customer> customers = this.customerService.findAll();
         model.addAttribute("customers", customers);
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("username", currentUser);
         return "customer/list";
+
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)

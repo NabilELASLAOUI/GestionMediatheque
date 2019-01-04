@@ -7,6 +7,7 @@ import fr.miage.core.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +40,8 @@ public class MediaController {
         model.addAttribute("title", "Medias");
         model.addAttribute("content", "media/index");
         model.addAttribute("urlMedia","Medias");
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("username", currentUser);
         return "base";
     }
 
