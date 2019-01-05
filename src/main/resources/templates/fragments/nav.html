@@ -18,10 +18,10 @@
         <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-              <div th:if="${username}">Bonjour <span th:text="${username}"></span></div><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+              <div th:if="${username}">Bonjour <span th:text="${username}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a th:href="@{/}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
+                <li><a th:href="@{/user/monCompte(id=${userID})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
                 </li>
                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                 </li>

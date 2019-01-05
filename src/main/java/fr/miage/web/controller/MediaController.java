@@ -2,8 +2,10 @@ package fr.miage.web.controller;
 
 
 import fr.miage.core.entity.Media;
+import fr.miage.core.entity.User;
 import fr.miage.core.service.MediaTypeService;
 import fr.miage.core.service.MediaService;
+import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @Controller
@@ -27,7 +30,8 @@ public class MediaController {
     @Autowired
     MediaTypeService mediaTypeService;
 
-
+    @Autowired
+    private UserService userService;
 
     //@PreAuthorize("hasAnyRole('ADMIN')")
 
@@ -42,7 +46,9 @@ public class MediaController {
         model.addAttribute("urlMedia","Medias");
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (currentUser != "anonymousUser"){
-            model.addAttribute("username", currentUser);
+            Optional<User> user = userService.findByUserName(currentUser);
+            model.addAttribute("username", user.get().getUserName());
+            model.addAttribute("userID", user.get().getUserId());
         }
         return "base";
     }

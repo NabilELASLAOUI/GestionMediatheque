@@ -154,5 +154,16 @@ public class UserController {
         model.addAttribute("content", content);
         return "base";
     }
+
+    @RequestMapping(value = "/monCompte", method = RequestMethod.GET)
+    public String monCompte(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", userService.findByuserId(id));
+        model.addAttribute("roles", roleService.findAll());
+        String title="Detail";
+        model.addAttribute("title", title);
+        String content="user/detail";
+        model.addAttribute("content", content);
+        return "base";
+    }
 }
 

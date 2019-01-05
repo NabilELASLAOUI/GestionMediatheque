@@ -1,7 +1,10 @@
 package fr.miage.web.controller;
 
+import fr.miage.core.entity.User;
+import fr.miage.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 public class FrontController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String index(Model model){
@@ -26,7 +33,9 @@ public class FrontController {
        model.addAttribute("AccueilSubscription","accueil");
        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (currentUser != "anonymousUser"){
-            model.addAttribute("username", currentUser);
+            Optional<User> user = userService.findByUserName(currentUser);
+            model.addAttribute("username", user.get().getUserName());
+            model.addAttribute("userID", user.get().getUserId());
         }
         return "base";
     }
