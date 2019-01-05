@@ -1,7 +1,9 @@
 package fr.miage.web.controller;
 
 import fr.miage.core.entity.Subscription;
+import fr.miage.core.entity.User;
 import fr.miage.core.service.SubscriptionService;
+import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -21,6 +23,9 @@ public class SubscriptionController {
 
     @Autowired
     SubscriptionService subscriptionService;
+
+    @Autowired
+    private UserService userService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
@@ -38,7 +43,9 @@ public class SubscriptionController {
         model.addAttribute("urlSubscription","subscriprion");
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (currentUser != "anonymousUser"){
-            model.addAttribute("username", currentUser);
+            Optional<User> user = userService.findByUserName(currentUser);
+            model.addAttribute("username", user.get().getUserName());
+            model.addAttribute("userID", user.get().getUserId());
         }
         return "base";
     }

@@ -4,6 +4,7 @@ package fr.miage.web.controller;
 import fr.miage.core.entity.User;
 import fr.miage.core.entity.VerificationToken;
 import fr.miage.core.service.RoleService;
+import fr.miage.core.service.SubscriptionService;
 import fr.miage.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 
 
 import javax.validation.Valid;
-import java.security.Principal;
+import java.util.Optional;
 
 
 @Controller
@@ -28,10 +29,13 @@ import java.security.Principal;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
+
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     @Autowired
     ApplicationEventPublisher eventPublisher;
@@ -52,7 +56,9 @@ public class UserController {
         model.addAttribute("urlUser","utilisateurs");
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (currentUser != "anonymousUser"){
-            model.addAttribute("username", currentUser);
+            Optional<User> user = userService.findByUserName(currentUser);
+            model.addAttribute("username", user.get().getUserName());
+            model.addAttribute("userID", user.get().getUserId());
         }
         return "base";
     }
@@ -70,31 +76,21 @@ public class UserController {
         model.addAttribute("urlUSer","user");
         return "base";
     }
-
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, WebRequest request) {
+    public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getModel().values());
             model.addAttribute("action","/user/create");
-            model.addAttribute("User", user);
+            model.addAttribute("roles", roleService.findAll());
             model.addAttribute("title", "Utilisateurs");
-            model.addAttribute("content", "user/index");
+            model.addAttribute("content", "user/add");
+            model.addAttribute("urlUser","User");
             return "base";
         }
-
-        User  registered  = userService.save(user);
-        if (registered == null) {
-            bindingResult.rejectValue("email", "message.regError");
-        }
-        try {
-            String appUrl = request.getContextPath();
-            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), appUrl));
-        } catch (Exception me) {
-            model.addAttribute("action","/user/create");
-            model.addAttribute("User", user);
-            model.addAttribute("title", "Utilisateurs");
-            model.addAttribute("content", "user/index");
-            return "base";
-        }
+        LOGGER.info("---------> avant save");
+        userService.save(user);
+        LOGGER.info("save: "+userService.save(user));
         return "redirect:/user";
     }
 
@@ -109,6 +105,7 @@ public class UserController {
     }
 
     // Recherche par nom
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String search(@RequestParam("userName") String userName, Model model) {
         /***********  List des users   *****************/
@@ -124,6 +121,7 @@ public class UserController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("User", userService.findByuserId(id));
@@ -133,17 +131,19 @@ public class UserController {
         /*************   Title and Content html*******************************/
         String title="Modification";
         model.addAttribute("title", title);
-        String content="user/index";
+        String content="user/add";
         model.addAttribute("content", content);
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/user";
     }
 
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findByuserId(id));
@@ -155,15 +155,33 @@ public class UserController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/monCompte", method = RequestMethod.GET)
     public String monCompte(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findByuserId(id));
-        model.addAttribute("roles", roleService.findAll());
-        String title="Detail";
+        model.addAttribute("subscriptions", subscriptionService.findAll());
+        model.addAttribute("userId", id);
+        model.addAttribute("User", new User());
+        String title="Mon Compte";
         model.addAttribute("title", title);
-        String content="user/detail";
+        String content="user/monCompte";
         model.addAttribute("content", content);
         return "base";
     }
-}
 
+    @PreAuthorize("hasAnyRole('Admin','Employe')")
+    @RequestMapping(value = "/subscription", method = RequestMethod.POST)
+    public String Usersubscription(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("action","/user/subscription");
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("title", "Utilisateurs");
+            model.addAttribute("content", "user/monCompte");
+            model.addAttribute("urlUser","User");
+            return "base";
+        }
+        LOGGER.info("---------> user subscription");
+        userService.save(user);
+        return "redirect:/user";
+    }
+}

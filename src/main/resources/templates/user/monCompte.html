@@ -10,13 +10,27 @@
                                  <p  th:text="${' Email :  ' + user.userMail}"></p>
                                  <p  th:text="${' Adresse :       ' + user.userAddress}"></p>
                                  <p  th:text="${' Téléphone :       ' + user.userPhone}"></p>
-                                 <p  th:text="${' Role :       ' + user.roles[0].roleName}"></p>
                         <div th:if="${user.subscription}">
                             <p><a th:href="@{/subscription/detail(id=${user.subscription.subscriptionId})}">Détail de l'abonnement</a></p>
                         </div>
                     </div>
                 </div>
-
+                <div class="row" th:unless="${user.subscription}">
+                    <div class="form-group">
+                        <form  th:action="@{/user/subscription}" th:object="${User}" method="post" class="form-horizontal"role="form">
+                            <input type="hidden" th:field="*{userId}"/>
+                            <div class="form-group">
+                                <select th:field="*{subscription}">
+                                    <option th:value="null">Choisir une inscription</option>
+                                    <option th:each="subscription : ${subscriptions}" th:value="${subscription.subscriptionId}"><span th:text="${subscription.titre}"></span></option>
+                                </select>
+                                <span th:if="${#fields.hasErrors('subscription')}" th:errors="*{subscription}" />
+                            </div>
+                            <button type="submit" class="btn btn-default">Enregistrer</button>
+                            <button type="reset" class="btn btn-default">Annuler</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
