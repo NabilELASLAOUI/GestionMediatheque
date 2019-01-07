@@ -55,6 +55,7 @@ public class UserController {
         model.addAttribute("content", "user/index");
         model.addAttribute("urlUser","utilisateurs");
         final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        LOGGER.info("--------> user: "+currentUser);
         if (currentUser != "anonymousUser"){
             Optional<User> user = userService.findByUserName(currentUser);
             model.addAttribute("username", user.get().getUserName());
@@ -63,7 +64,6 @@ public class UserController {
         return "base";
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addUser(Model model) {
         /*************   add a media*******************************/
@@ -76,7 +76,6 @@ public class UserController {
         model.addAttribute("urlUSer","user");
         return "base";
     }
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -88,7 +87,7 @@ public class UserController {
             model.addAttribute("urlUser","User");
             return "base";
         }
-        LOGGER.info("---------> avant save");
+        LOGGER.info("--------->user id: "+user.getUserId());
         userService.save(user);
         LOGGER.info("save: "+userService.save(user));
         return "redirect:/user";

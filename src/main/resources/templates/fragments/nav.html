@@ -19,6 +19,7 @@
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
               <div th:if="${username}">Bonjour <span th:text="${username}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
+                <div><a th:href="@{/login}">Connexion</a></div>
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a th:href="@{/user/monCompte(id=${userID})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
