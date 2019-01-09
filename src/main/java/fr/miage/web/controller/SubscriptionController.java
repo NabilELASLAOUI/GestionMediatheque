@@ -27,7 +27,7 @@ public class SubscriptionController {
     @Autowired
     private UserService userService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
     @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
     @RequestMapping(method = RequestMethod.GET)

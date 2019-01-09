@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Controller
 public class FrontController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
     @Autowired
     private UserService userService;
