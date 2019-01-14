@@ -15,6 +15,8 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -106,6 +108,12 @@ public class SpringWebConfig implements WebMvcConfigurer {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
 
+		// add Java 8 time to Thymeleaf : #temporals function
+        templateEngine.addDialect(new Java8TimeDialect());
+
+        // TODO enable SpringSecurity
+        // To use <sec:> namespace in Thymeleaf
+        templateEngine.addDialect(new SpringSecurityDialect());
 		return templateEngine;
 	}
 	@Bean
