@@ -5,7 +5,10 @@ import fr.miage.core.entity.VerificationToken;
 import fr.miage.core.repository.UserRepository;
 import fr.miage.core.repository.VerificationTokenRepository;
 import fr.miage.core.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +27,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private VerificationTokenRepository tokenRepository;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
+
     @Override
     public User save(User entity) {
 //        if (!emailExist(entity.getUserMail())) {
 //            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+//            LOGGER.info("----> password: "+passwordEncoder.encode(entity.getPassword()));
 //            return userRepository.save(entity);
 //        }
-        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(entity);
     }
 

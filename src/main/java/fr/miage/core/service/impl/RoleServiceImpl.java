@@ -17,6 +17,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role save(Role entity) {
+        entity.setRoleName(entity.getRoleName().toUpperCase());
         return roleRepository.save(entity);
     }
 
