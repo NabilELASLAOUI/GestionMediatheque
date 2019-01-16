@@ -33,10 +33,7 @@ public class RoleController {
         model.addAttribute("title", "Roles");
         model.addAttribute("content", "role/index");
         model.addAttribute("urlRole","roles");
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (currentUser != "anonymousUser"){
-            model.addAttribute("username", currentUser);
-        }
+
         return "base";
     }
 

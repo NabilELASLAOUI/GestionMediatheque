@@ -29,7 +29,7 @@ public class SubscriptionController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
-    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','Client')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des inscription   *****************/
@@ -41,15 +41,10 @@ public class SubscriptionController {
         model.addAttribute("title", "Inscription");
         model.addAttribute("content", "subscription/index");
         model.addAttribute("urlSubscription","subscriprion");
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (currentUser != "anonymousUser"){
-            Optional<User> user = userService.findByUserName(currentUser);
-            model.addAttribute("username", user.get().getUserName());
-            model.addAttribute("userID", user.get().getUserId());
-        }
+
         return "base";
     }
-    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Subscription subscription, BindingResult bindingResult, Model model) {
         LOGGER.info("******* create subscription *******");
@@ -67,7 +62,7 @@ public class SubscriptionController {
         return "redirect:/subscription";
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("Subscription", this.subscriptionService.findBySubscriptionId(id));
@@ -80,7 +75,7 @@ public class SubscriptionController {
         model.addAttribute("content", content);
         return "base";
     }
-    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         subscriptionService.delete(id);

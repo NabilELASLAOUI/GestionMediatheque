@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(getPasswordEncoder());
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -49,26 +49,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login").permitAll();
     }
 
-
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    PasswordEncoder getPasswordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence charSequence) {
-                return new BCryptPasswordEncoder().encode(charSequence);
-            }
 
-            @Override
-            public boolean matches(CharSequence charSequence, String s) {
-                LOGGER.info("----> charSequence: "+encode(charSequence));
-                LOGGER.info("----> s: "+s);
-                // TO DO
-               // s.equalsIgnoreCase(encode(charSequence));
-                return true;
-            }
-        };
-    }
+//    PasswordEncoder getPasswordEncoder() {
+//        return new PasswordEncoder() {
+//            @Override
+//            public String encode(CharSequence charSequence) {
+//                return new BCryptPasswordEncoder().encode(charSequence);
+//            }
+//
+//            @Override
+//            public boolean matches(CharSequence charSequence, String s) {
+//                LOGGER.info("----> charSequence: "+encode(charSequence));
+//                LOGGER.info("----> s: "+s);
+//
+//                return s.equalsIgnoreCase(encode(charSequence));
+//            }
+//        };
+//    }
 }

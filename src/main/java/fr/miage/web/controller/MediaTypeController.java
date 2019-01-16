@@ -31,10 +31,7 @@ public class MediaTypeController {
         model.addAttribute("title", "Media types");
         model.addAttribute("content", "mediatype/index");
         model.addAttribute("urlMediatype","mediatypes");
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (currentUser != "anonymousUser"){
-            model.addAttribute("username", currentUser);
-        }
+
         return "base";
     }
 

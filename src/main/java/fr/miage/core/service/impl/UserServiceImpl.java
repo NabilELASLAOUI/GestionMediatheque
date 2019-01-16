@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+   // @Autowired
+    //private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private VerificationTokenRepository tokenRepository;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 //            LOGGER.info("----> password: "+passwordEncoder.encode(entity.getPassword()));
 //            return userRepository.save(entity);
 //        }
-         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+       //  entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(entity);
     }
 

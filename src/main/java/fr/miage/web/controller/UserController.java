@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -40,6 +42,8 @@ public class UserController {
     @Autowired
     ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
@@ -54,13 +58,7 @@ public class UserController {
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/index");
         model.addAttribute("urlUser","utilisateurs");
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        LOGGER.info("--------> user: "+currentUser);
-        if (currentUser != "anonymousUser"){
-            Optional<User> user = userService.findByUserName(currentUser);
-            model.addAttribute("username", user.get().getUserName());
-            model.addAttribute("userID", user.get().getUserId());
-        }
+
         return "base";
     }
 
@@ -88,6 +86,7 @@ public class UserController {
             return "base";
         }
         LOGGER.info("--------->user id: "+user.getUserId());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         LOGGER.info("save: "+userService.save(user));
         return "redirect:/user";
