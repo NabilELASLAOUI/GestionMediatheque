@@ -44,7 +44,7 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
 
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des users   *****************/
@@ -104,7 +104,7 @@ public class UserController {
     }
 
     // Recherche par nom
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String search(@RequestParam("userName") String userName, Model model) {
         /***********  List des users   *****************/
@@ -120,7 +120,7 @@ public class UserController {
         return "base";
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("User", userService.findByuserId(id));
@@ -135,14 +135,14 @@ public class UserController {
         return "base";
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/user";
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findByuserId(id));
@@ -154,7 +154,7 @@ public class UserController {
         return "base";
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Employe')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/monCompte", method = RequestMethod.GET)
     public String monCompte(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findByuserId(id));

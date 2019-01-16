@@ -1,7 +1,10 @@
 package fr.miage.config;
 
+import fr.miage.core.entity.User;
 import fr.miage.core.repository.UserRepository;
 import fr.miage.core.service.impl.CustomUserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CustomUserDetailsService userDetailsService;
 
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
@@ -44,19 +49,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login").permitAll();
     }
 
+
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
+    PasswordEncoder getPasswordEncoder() {
         return new PasswordEncoder() {
             @Override
             public String encode(CharSequence charSequence) {
-                return charSequence.toString();
+                return new BCryptPasswordEncoder().encode(charSequence);
             }
 
             @Override
             public boolean matches(CharSequence charSequence, String s) {
-                return s.equals(encode(charSequence));
+                LOGGER.info("----> charSequence: "+encode(charSequence));
+                LOGGER.info("----> s: "+s);
+                // TO DO
+               // s.equalsIgnoreCase(encode(charSequence));
+                return true;
             }
         };
     }
-
 }
