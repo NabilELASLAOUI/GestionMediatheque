@@ -3,6 +3,8 @@ package fr.miage.core.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="MEDIA")
@@ -12,6 +14,9 @@ public class Media {
     @Column(name="mediaId")
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long mediaId;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.media")
+    private Set<UserMedia> userMedias = new HashSet<>(0);
 
     @NotNull
     @Size(min=5, max=30)
@@ -31,6 +36,10 @@ public class Media {
     @Column(name="mediaAuthor",nullable = false)
     @Size(min=5, max=30)
     private String mediaAuthor;
+
+    @ManyToOne
+    @JoinColumn(name = "typeId", nullable = false)
+    private MediaType mediaType;
 
     public Long getMediaId() {
         return mediaId;
@@ -80,19 +89,29 @@ public class Media {
         this.mediaAuthor = mediaAuthor;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "typeId", nullable = false)
-    private MediaType mediaType;
+    public Set<UserMedia> getUserMedias() {
+        return userMedias;
+    }
+
+    public void setUserMedias(Set<UserMedia> userMedias) {
+        this.userMedias = userMedias;
+    }
+
+
+
 
     public Media() {}
 
-    public Media(String mediaTitle, String mediaDescription, String mediaAuthor, MediaType type) {
+    public Media(String mediaTitle, String mediaDescription, String mediaAuthor, MediaType type, Set<UserMedia> userMedias) {
         this.mediaTitle = mediaTitle;
         this.mediaDescription=mediaDescription;
         this.mediaAuthor= mediaAuthor;
         this.mediaStatus=true;
         this.mediaType= type;
+        this.userMedias=userMedias;
     }
+
+
 
 
     @Override
