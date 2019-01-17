@@ -3,6 +3,7 @@ package fr.miage.web.controller;
 
 import fr.miage.core.entity.Media;
 import fr.miage.core.entity.User;
+import fr.miage.core.entity.UserMedia;
 import fr.miage.core.service.MediaTypeService;
 import fr.miage.core.service.MediaService;
 import fr.miage.core.service.UserService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.Optional;
 
 
@@ -69,7 +71,6 @@ public class MediaController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Media media, BindingResult bindingResult, Model model, WebRequest request) {
         if (bindingResult.hasErrors()) {
-            System.out.println("tttttttttttttttttttttttttttttttttttttttttttttttttttttt");
             System.out.println(bindingResult.getModel().values());
             model.addAttribute("action","/media/create");
             model.addAttribute("mediaTypes", mediaTypeService.findAll());
@@ -124,6 +125,27 @@ public class MediaController {
         String content="media/detail";
         model.addAttribute("content", content);
         return "base";
+    }
+
+    @RequestMapping(value = "/emprunter", method = RequestMethod.GET)
+    public String emprunter(@RequestParam("id") Long id, Model model) {
+        Long userId=null;
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (currentUser != "anonymousUser"){
+            Optional<User> user = userService.findByUserName(currentUser);
+            userId= user.get().getUserId();
+        }
+
+        Media media = mediaService.findByMediaId(id);
+        User user = userService.findByuserId(userId);
+        UserMedia userMedia = new UserMedia();
+        userMedia.setUser(user);
+        userMedia.setMedia(media);
+        userMedia.setTheoriticalReturnDate(new Date());
+        System.out.println("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"+userMedia.getMedia().getMediaAuthor());
+        user.getUserMedias().add(userMedia);
+        userService.save(user);
+        return "redirect:/media";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)

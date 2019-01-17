@@ -1,6 +1,7 @@
 package fr.miage.web.controller;
 
 import fr.miage.core.entity.User;
+import fr.miage.core.service.MediaService;
 import fr.miage.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,9 @@ public class FrontController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    MediaService mediaService;
+
     @GetMapping("/")
     public String index(Model model){
        String content="index";
@@ -31,6 +35,7 @@ public class FrontController {
        model.addAttribute("title", title);
        model.addAttribute("content", content);
        model.addAttribute("AccueilSubscription","accueil");
+       model.addAttribute("medias", this.mediaService.findAll());
        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (currentUser != "anonymousUser"){
             Optional<User> user = userService.findByUserName(currentUser);

@@ -20,13 +20,13 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
               <div th:if="${username}">Bonjour <span th:text="${username}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
             </a>
-            <ul class="dropdown-menu dropdown-user">
+            <ul class="dropdown-menu dropdown-user" th:if="${username}">
                 <li><a th:href="@{/user/monCompte(id=${userID})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
                 </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
                 </li>
                 <li class="divider"></li>
-                <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
@@ -40,6 +40,12 @@
         <ul class="nav" id="main-menu">
             <li>
                 <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/}"><i class="fa fa-dashboard"></i> Accueil</a>
+            </li>
+            <li sec:authorize="!isAuthenticated()">
+                <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/user/add}"><i class="fa fa-dashboard"></i> Inscription</a>
+            </li>
+            <li sec:authorize="!isAuthenticated()">
+                <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/login}"><i class="fa fa-dashboard"></i> Connexion</a>
             </li>
             <li sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">
                 <a href="#"><i class="fa fa-list-alt"></i> Média <span class="fa arrow"></span></a>

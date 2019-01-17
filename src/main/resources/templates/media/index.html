@@ -5,7 +5,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                Listes Des Medias
-                <a th:href="@{/media/add}"><button class="btn btn-primary pull-right">Ajouter un Media</button></a>
+                <a sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')" th:href="@{/media/add}"><button class="btn btn-primary pull-right">Ajouter un Media</button></a>
 
             </div>
             <div class="panel-body">
@@ -29,8 +29,8 @@
                             <td><span th:text="${media.mediaStatus}==true ? 'Disponible':'Indisponible'"></span></td>
                             <td><span th:text="${media.mediaAuthor}"></span></td>
                             <td>
-                                <a th:href="@{/media/edit(id=${media.mediaId})}">Modifier</a>|
-                                <a th:onclick="'deleteMedia(\'' + ${media.mediaId} + '\');'">Supprimer</a>
+                                <a sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')" th:href="@{/media/edit(id=${media.mediaId})}">Modifier</a>|
+                                <a sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')" th:onclick="'deleteMedia(\'' + ${media.mediaId} + '\');'">Supprimer</a>
                             </td>
                         </tr>
 
