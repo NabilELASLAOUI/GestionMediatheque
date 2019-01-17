@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class SubscriptionTypeImpl implements SubscriptionTypeService {
+public class SubscriptionServiceTypeImpl implements SubscriptionTypeService {
 
     @Autowired
     SubscriptionTypeRepository subscriptionTypeRepository;
