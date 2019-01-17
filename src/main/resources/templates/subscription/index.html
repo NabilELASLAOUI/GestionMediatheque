@@ -11,11 +11,22 @@
                         </h3>
                         <form  th:action="${action}" th:object="${Subscription}" method="post" class="form-horizontal"role="form">
                             <input type="hidden" th:field="*{subscriptionId}"/>
+
                             <div class="form-group">
                                 <label for="typeName" >Titre</label>
                                 <div>
                                     <input class="form-control" id="titre" type="text" th:field="*{titre}" th:placeholder="#{titre}" />
                                     <span th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}">Field name has errors</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subscriptionType" >Type :</label>
+                                <div>
+                                    <select th:field="*{subscriptionType}" id="subscriptionType" class="form-control">
+                                        <option th:value="null">Choisir un type</option>
+                                        <option th:each="subscriptionType : ${subscriptionTypes}" th:value="${subscriptionType.typeId}"><span th:text="${subscriptionType.typeName}"></span></option>
+                                    </select>
+                                    <span th:if="${#fields.hasErrors('subscriptionType')}" th:errors="*{subscriptionType}" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -32,60 +43,90 @@
                                     <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Field name has errors</span>
                                 </div>
                             </div>
+                            <div  class="form-group">
+                                <label for="user_sub" >User</label>
+                                <div>
+                                    <input class="form-control" id="user_sub" type="text" th:field="*{user_sub}" th:placeholder="${#authentication.getPrincipal().getUserId()}" />
+                                    <span th:if="${#fields.hasErrors('user_sub')}" th:errors="*{user_sub}">Field name has errors</span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+                                <label for="subscriptionStatus" >Etat :</label>
+                                <div>
+                                    <select th:field="*{subscriptionStatus}" id="subscriptionStatus" class="form-control">
+                                        <option th:value="true">Valider</option>
+                                        <option th:value="false" >Encours</option>
+                                    </select>
+                                    <span th:if="${#fields.hasErrors('subscriptionStatus')}" th:errors="*{subscriptionStatus}" />
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn btn-default">Enregistrer</button>
                             <button type="reset" class="btn btn-default">Annuler</button>
                         </form>
                     </div>
                     <!-- /.col-lg-6 (nested) -->
-                    <div class="col-lg-offset-1 col-lg-6">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <!-- Advanced Tables -->
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        Les inscriptions
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-bordered table-hover" >
-                                                <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Titre</th>
-                                                    <th>Date de début</th>
-                                                    <th>Date du fin</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody th:each="subscription : ${subscriptions}">
-                                                <tr>
-                                                    <td><span th:text="${subscription.subscriptionId}"></span></td>
-                                                    <td><span th:text="${subscription.titre}"></span></td>
-                                                    <td><span th:text="${subscription.beginningDate}"></span></td>
-                                                    <td><span th:text="${subscription.endDate}"></span></td>
-                                                    <td>
-                                                        <a th:href="@{/subscription/edit(id=${subscription.subscriptionId})}">Modifier</a>|
-                                                        <a th:href="@{'/subscription/delete/' + ${subscription.subscriptionId}}">Supprimer</a>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
 
-                                    </div>
-                                </div>
-                                <!--End Advanced Tables -->
-                            </div>
-                        </div>
-                        <!-- /. ROW  -->
-                    </div>
                     <!-- /.col-lg-6 (nested) -->
                 </div>
+
                 <!-- /.row (nested) -->
             </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
+
     <!-- /.col-lg-12 -->
+</div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Les inscriptions
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" >
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Titre</th>
+                                        <th>Type</th>
+                                        <th>Client</th>
+                                        <th>Date de début</th>
+                                        <th>Date du fin</th>
+                                        <th>Etat</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:each="subscription : ${subscriptions}">
+                                    <tr>
+                                        <td><span th:text="${subscription.subscriptionId}"></span></td>
+                                        <td><span th:text="${subscription.titre}"></span></td>
+                                        <td><span th:text="${subscription.subscriptionType.typeName}"></span></td>
+                                        <td><span th:text="${subscription.user_sub.userName}"></span></td>
+                                        <td><span th:text="${subscription.beginningDate}"></span></td>
+                                        <td><span th:text="${subscription.endDate}"></span></td>
+                                        <td><span th:text="${subscription.subscriptionStatus}==true?'Valider':'Encours'"
+                                        ></span></td>
+                                         <td>
+                                            <a th:href="@{/subscription/edit(id=${subscription.subscriptionId})}">Modifier</a>|
+                                            <a th:href="@{'/subscription/delete/' + ${subscription.subscriptionId}}">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                </div>
+            </div>
+            <!-- /. ROW  -->
+
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
 </div>

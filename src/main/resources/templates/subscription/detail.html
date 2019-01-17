@@ -7,8 +7,11 @@
                 <div class="row">
                     <div class="col-lg-offset-1 col-lg-8">
                          <p  th:text="${' Id :       ' + subscription.subscriptionId}"></p>
+                         <p  th:text="${' Type :       ' + subscription.subscriptionType.typeName}"></p>
+                         <p th:text="${' user:     '+subscription.user_sub.userName}"></p>
                          <p  th:text="${' Date de début :        ' + subscription.beginningDate}"></p>
                          <p  th:text="${' Date de fin :  ' + subscription.endDate}"></p>
+                        <p  th:text="${subscription.subscriptionStatus}==true?'alider':'Encours'"></p>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.request.WebRequest;
+
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -33,13 +35,15 @@ public class SubscriptionController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','Client')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des inscription   *****************/
         model.addAttribute("subscriptions", this.subscriptionService.findAll());
         /***********  Ajout d'une inscription ****************/
         model.addAttribute("action","/subscription/create");
+        model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("Subscription", new Subscription());
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Inscription");
@@ -57,6 +61,7 @@ public class SubscriptionController {
             LOGGER.info("-----------> errors subscription create");
             model.addAttribute("action","/subscription/create");
             model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
+            //model.addAttribute("users", userService.findAll());
             model.addAttribute("Subscription", subscription);
             /*************   Title and Content html*******************************/
             model.addAttribute("title", "Inscription");
@@ -71,6 +76,8 @@ public class SubscriptionController {
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("Subscription", this.subscriptionService.findBySubscriptionId(id));
+        model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
+        model.addAttribute("users", userService.findAll());
         String action="/subscription/create";
         model.addAttribute("action",action);
         /*************   Title and Content html*******************************/
@@ -87,14 +94,17 @@ public class SubscriptionController {
         return "redirect:/subscription";
     }
 
-    @PreAuthorize("hasAnyRole('Admin','Employe','Client')")
+    @PreAuthorize("hasAnyRole('Admin','Employe','CLIENT')")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam("id") Long id, Model model) {
         model.addAttribute("subscription", subscriptionService.findBySubscriptionId(id));
+        model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
+        model.addAttribute("users", userService.findAll());
         String title="Detail";
         model.addAttribute("title", title);
         String content="subscription/detail";
         model.addAttribute("content", content);
         return "base";
     }
+
 }
