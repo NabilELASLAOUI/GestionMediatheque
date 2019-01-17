@@ -36,6 +36,16 @@ public class Subscription {
     @OneToMany(mappedBy = "subscription")
     private final List<User> users = new LinkedList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "typeId", nullable = false)
+    private SubscriptionType subscriptionType;
+
+    public Subscription() {
+    }
+    public Subscription(LocalDateTime beginningDate, LocalDateTime endDate) {
+        this.beginningDate = beginningDate;
+        this.endDate = endDate;
+    }
     public Long getSubscriptionId() {
         return subscriptionId;
     }
@@ -54,11 +64,6 @@ public class Subscription {
 
     public List<User> getUsers() {
         return users;
-    }
-
-    public Subscription(LocalDateTime beginningDate, LocalDateTime endDate) {
-        this.beginningDate = beginningDate;
-        this.endDate = endDate;
     }
 
     public String getTitre() {
@@ -81,6 +86,11 @@ public class Subscription {
         this.beginningDate = beginningDate;
     }
 
-    public Subscription() {
+    public SubscriptionType getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public void setSubscriptionType(SubscriptionType subscriptionType) {
+        this.subscriptionType = subscriptionType;
     }
 }

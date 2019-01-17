@@ -3,6 +3,7 @@ package fr.miage.web.controller;
 import fr.miage.core.entity.Subscription;
 import fr.miage.core.entity.User;
 import fr.miage.core.service.SubscriptionService;
+import fr.miage.core.service.SubscriptionTypeService;
 import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,9 @@ public class SubscriptionController {
 
     @Autowired
     SubscriptionService subscriptionService;
+
+    @Autowired
+    SubscriptionTypeService subscriptionTypeService;
 
     @Autowired
     private UserService userService;
@@ -52,6 +56,7 @@ public class SubscriptionController {
             /***********  errors subscription create ****************/
             LOGGER.info("-----------> errors subscription create");
             model.addAttribute("action","/subscription/create");
+            model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
             model.addAttribute("Subscription", subscription);
             /*************   Title and Content html*******************************/
             model.addAttribute("title", "Inscription");
