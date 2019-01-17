@@ -31,7 +31,6 @@ public class SubscriptionTypeController {
         model.addAttribute("title", "Subscription types");
         model.addAttribute("content", "subscriptiontype/index");
         model.addAttribute("urlSubscriptiontype","subscriptiontypes");
-
         return "base";
     }
 
