@@ -56,15 +56,14 @@ padding : 50px 0;
                         <input type="password" name="password" class="form-control" placeholder="">
                     </div>
                     <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input">
-                            <small>Remember Me</small>
-                        </label>
                         <button type="submit" class="btn btn-login float-right">Connexion</button>
                     </div>
-
                 </form>
-                <div class="copy-text">Created with <i class="fa fa-heart"></i> by <a href="http://grafreez.com">Grafreez.com</a></div>
+                <label class="form-check-label">
+                    <form class="login-form" th:action="@{/user/add}" method="get">
+                        <button  class="btn btnRegister" type="submit">Inscription</button>
+                    </form>
+                </label>
             </div>
             <div class="col-md-8 banner-sec">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">

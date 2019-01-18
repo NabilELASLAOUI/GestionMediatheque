@@ -18,7 +18,7 @@
                             <th>Description</th>
                             <th>Statut</th>
                             <th>Auteur</th>
-                            <th>Action</th>
+                            <th sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -28,9 +28,9 @@
                             <td><span th:text="${media.mediaDescription}"></span></td>
                             <td><span th:text="${media.mediaStatus}==true ? 'Disponible':'Indisponible'"></span></td>
                             <td><span th:text="${media.mediaAuthor}"></span></td>
-                            <td>
-                                <a sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')" th:href="@{/media/edit(id=${media.mediaId})}">Modifier</a>|
-                                <a sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')" th:onclick="'deleteMedia(\'' + ${media.mediaId} + '\');'">Supprimer</a>
+                            <td sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">
+                                <a th:href="@{/media/edit(id=${media.mediaId})}">Modifier</a>|
+                                <a th:onclick="'deleteMedia(\'' + ${media.mediaId} + '\');'">Supprimer</a>
                             </td>
                         </tr>
 

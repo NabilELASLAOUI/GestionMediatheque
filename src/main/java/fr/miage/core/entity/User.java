@@ -44,9 +44,13 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    /*
     @ManyToOne
     @JoinColumn(name="subscriptionId")
     private Subscription subscription;
+    */
+    @OneToMany(mappedBy = "user_sub")
+    private List<Subscription> subscriptions;
 
     public User() {
     }
@@ -140,7 +144,7 @@ public class User {
     public boolean setEnabled(boolean enabled) {
        return this.enabled = enabled;
     }
-
+/*
     public void setSubscription(Subscription subscription) {
         this.subscription = subscription;
     }
@@ -148,6 +152,7 @@ public class User {
     public Subscription getSubscription() {
         return subscription;
     }
+<<<<<<< HEAD
 
 
     public Set<UserMedia> getUserMedias() {
@@ -156,5 +161,15 @@ public class User {
 
     public void setUserMedias(Set<UserMedia> userMedias) {
         this.userMedias = userMedias;
+=======
+*/
+
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+>>>>>>> e0b63c20aa52539eae1aed4461d4e73a8b94671e
     }
 }

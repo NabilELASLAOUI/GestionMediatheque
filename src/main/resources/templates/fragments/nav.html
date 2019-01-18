@@ -18,7 +18,7 @@
         <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-              <div th:if="${username}">Bonjour <span th:text="${username}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
+              <div sec:authorize="isAuthenticated()">Bonjour <span th:text ="${#authentication.getPrincipal().getUsername()}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
             </a>
             <ul class="dropdown-menu dropdown-user" th:if="${username}">
                 <li><a th:href="@{/user/monCompte(id=${userID})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
@@ -74,8 +74,17 @@
                     </li>
                 </ul>
             </li>
+            <!--li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Abonnement</span></a>
+            </li>
             <li sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Inscription</span></a>
+                <a th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
+            </li-->
+            <li >
+                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Abonnement</span></a>
+            </li>
+            <li >
+                <a th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
             </li>
         </ul>
 

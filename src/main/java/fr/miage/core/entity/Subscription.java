@@ -32,10 +32,28 @@ public class Subscription {
     @Column(name="endDate")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDate;
-
+/*
     @OneToMany(mappedBy = "subscription")
     private final List<User> users = new LinkedList<>();
+*/
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user_sub;
 
+    @ManyToOne
+    @JoinColumn(name = "typeId", nullable = false)
+    private SubscriptionType subscriptionType;
+
+    @NotNull
+    @Column(name="subscriptionStatus", nullable = false)
+    private boolean subscriptionStatus;
+
+    public Subscription() {
+    }
+    public Subscription(LocalDateTime beginningDate, LocalDateTime endDate) {
+        this.beginningDate = beginningDate;
+        this.endDate = endDate;
+    }
     public Long getSubscriptionId() {
         return subscriptionId;
     }
@@ -51,16 +69,11 @@ public class Subscription {
     public LocalDateTime getEndDate() {
         return endDate;
     }
-
+/*
     public List<User> getUsers() {
         return users;
     }
-
-    public Subscription(LocalDateTime beginningDate, LocalDateTime endDate) {
-        this.beginningDate = beginningDate;
-        this.endDate = endDate;
-    }
-
+*/
     public String getTitre() {
         return titre;
     }
@@ -81,6 +94,27 @@ public class Subscription {
         this.beginningDate = beginningDate;
     }
 
-    public Subscription() {
+    public SubscriptionType getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public void setSubscriptionType(SubscriptionType subscriptionType) {
+        this.subscriptionType = subscriptionType;
+    }
+
+    public boolean isSubscriptionStatus() {
+        return subscriptionStatus;
+    }
+
+    public void setSubscriptionStatus(boolean subscriptionStatus) {
+        this.subscriptionStatus = subscriptionStatus;
+    }
+
+    public User getUser_sub() {
+        return user_sub;
+    }
+
+    public void setUser_sub(User user_sub) {
+        this.user_sub = user_sub;
     }
 }

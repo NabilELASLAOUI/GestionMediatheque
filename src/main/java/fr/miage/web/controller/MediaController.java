@@ -58,12 +58,7 @@ public class MediaController {
         model.addAttribute("title", "Medias");
         model.addAttribute("content", "media/index");
         model.addAttribute("urlMedia","Medias");
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (currentUser != "anonymousUser"){
-            Optional<User> user = userService.findByUserName(currentUser);
-            model.addAttribute("username", user.get().getUserName());
-            model.addAttribute("userID", user.get().getUserId());
-        }
+
         return "base";
     }
 

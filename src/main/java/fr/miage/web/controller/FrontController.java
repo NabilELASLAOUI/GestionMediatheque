@@ -35,6 +35,7 @@ public class FrontController {
        model.addAttribute("title", title);
        model.addAttribute("content", content);
        model.addAttribute("AccueilSubscription","accueil");
+<<<<<<< HEAD
        model.addAttribute("medias", this.mediaService.findAll());
        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (currentUser != "anonymousUser"){
@@ -42,6 +43,9 @@ public class FrontController {
             model.addAttribute("username", user.get().getUserName());
             model.addAttribute("userID", user.get().getUserId());
         }
+=======
+
+>>>>>>> e0b63c20aa52539eae1aed4461d4e73a8b94671e
         return "base";
     }
 
