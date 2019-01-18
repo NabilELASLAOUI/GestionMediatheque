@@ -85,7 +85,7 @@ public class UserController {
         return "base";
     }
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
+    public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, WebRequest request) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getModel().values());
             model.addAttribute("action","/user/create");
@@ -95,10 +95,21 @@ public class UserController {
             model.addAttribute("urlUser","User");
             return "base";
         }
-        LOGGER.info("--------->user role: "+user.getRoles().getRoleName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.save(user);
-        LOGGER.info("save: "+userService.save(user));
+        User  registered  = userService.save(user);
+        if (registered == null) {
+            bindingResult.rejectValue("email", "message.regError");
+        }
+        try {
+            String appUrl = request.getContextPath();
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), appUrl));
+        } catch (Exception me) {
+            model.addAttribute("action","/user/create");
+            model.addAttribute("User", user);
+            model.addAttribute("title", "Utilisateurs");
+            model.addAttribute("content", "user/index");
+            return "base";
+        }
         return "redirect:/user";
     }
 
@@ -108,6 +119,8 @@ public class UserController {
 
         VerificationToken verificationToken = userService.getVerificationToken(token);
         User user = verificationToken.getUser();
+        LOGGER.info("---------> user token:"+user.getUserName());
+        user.setEnabled(true);
         userService.save(user);
         return "redirect:/user";
     }
