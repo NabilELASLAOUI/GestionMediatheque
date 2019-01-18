@@ -2,24 +2,36 @@ package fr.miage.web.controller;
 
 
 import fr.miage.core.entity.Media;
+import fr.miage.core.entity.Role;
 import fr.miage.core.entity.User;
 import fr.miage.core.entity.UserMedia;
 import fr.miage.core.service.MediaTypeService;
 import fr.miage.core.service.MediaService;
 import fr.miage.core.service.UserService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
+import org.springframework.data.jpa.provider.HibernateUtils;
+import org.springframework.scheduling.concurrent.ScheduledExecutorTask;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import sun.util.logging.resources.logging;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Controller
@@ -141,8 +153,6 @@ public class MediaController {
         UserMedia userMedia = new UserMedia();
         userMedia.setUser(user);
         userMedia.setMedia(media);
-        userMedia.setTheoriticalReturnDate(new Date());
-        System.out.println("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"+userMedia.getMedia().getMediaAuthor());
         user.getUserMedias().add(userMedia);
         userService.save(user);
         return "redirect:/media";

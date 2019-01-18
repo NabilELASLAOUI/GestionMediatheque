@@ -1,7 +1,7 @@
 package fr.miage.core.entity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Embeddable
 public class UserMediaId implements java.io.Serializable {
@@ -46,5 +46,4 @@ public class UserMediaId implements java.io.Serializable {
         result = 31 * result + (media != null ? media.hashCode() : 0);
         return result;
     }
-
 }

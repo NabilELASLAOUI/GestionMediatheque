@@ -2,12 +2,11 @@ package fr.miage.core.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@Entity
+@Entity(name = "User")
 @Table(name="USER")
+
 public class User {
     @Id
     @Column(name="userId")
@@ -15,7 +14,8 @@ public class User {
     private Long userId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
-    private Set<UserMedia> userMedias = new HashSet<>(0);
+    private Set<UserMedia> userMedias = new HashSet<UserMedia>();
+
 
     @NotNull
     @Column(name="userName")
@@ -49,6 +49,9 @@ public class User {
     private Subscription subscription;
 
     public User() {
+    }
+    public User(String name) {
+        this.userName=name;
     }
     User(User user){
         this.userId = user.getUserId();
@@ -145,6 +148,7 @@ public class User {
     public Subscription getSubscription() {
         return subscription;
     }
+
 
     public Set<UserMedia> getUserMedias() {
         return userMedias;

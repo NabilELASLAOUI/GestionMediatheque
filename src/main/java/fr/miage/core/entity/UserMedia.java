@@ -1,31 +1,23 @@
 package fr.miage.core.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "user_media", catalog = "miage")
+@Table(name = "user_media")
 @AssociationOverrides({
         @AssociationOverride(name = "pk.user",
                 joinColumns = @JoinColumn(name = "userId")),
         @AssociationOverride(name = "pk.media",
                 joinColumns = @JoinColumn(name = "mediaId")) })
-public class UserMedia implements java.io.Serializable {
+public class UserMedia{
 
     private UserMediaId pk = new UserMediaId();
-    private Date borrowingDate;
-    private Date theoriticalReturnDate;
-    private Date effectiveReturnDate;
+    private LocalDateTime borrowingDtae = LocalDateTime.now();
+    private LocalDateTime returnDate= borrowingDtae.plusDays(30);
 
     public UserMedia() {
     }
@@ -44,8 +36,8 @@ public class UserMedia implements java.io.Serializable {
         return getPk().getUser();
     }
 
-    public void setUser(User stock) {
-        getPk().setUser(stock);
+    public void setUser(User user) {
+        getPk().setUser(user);
     }
 
     @Transient
@@ -53,38 +45,25 @@ public class UserMedia implements java.io.Serializable {
         return getPk().getMedia();
     }
 
-    public void setMedia(Media category) {
-        getPk().setMedia(category);
+    public void setMedia(Media media) {
+        getPk().setMedia(media);
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "BORROWING_DATE", nullable = false, length = 10)
-    public Date getBorrowingDate() {
-        return borrowingDate;
+
+    public LocalDateTime getBorrowingDtae() {
+        return borrowingDtae;
     }
 
-    public void setBorrowingDate(Date borrowingDate) {
-        this.borrowingDate = borrowingDate;
+    public void setBorrowingDtae(LocalDateTime borrowingDtae) {
+        this.borrowingDtae = borrowingDtae;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "THEORITICALRETURN_DATE", nullable = false, length = 10)
-    public Date getTheoriticalReturnDate() {
-        return theoriticalReturnDate;
+    public LocalDateTime getReturnDate() {
+        return returnDate;
     }
 
-    public void setTheoriticalReturnDate(Date theoriticalReturnDate) {
-        this.theoriticalReturnDate = theoriticalReturnDate;
-    }
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "EFFECTIVERETURN_DATE", nullable = false, length = 10)
-    public Date getEffectiveReturnDate() {
-        return effectiveReturnDate;
-    }
-
-    public void setEffectiveReturnDate(Date effectiveReturnDate) {
-        this.effectiveReturnDate = effectiveReturnDate;
+    public void setReturnDate(LocalDateTime returnDate) {
+        this.returnDate = returnDate;
     }
 
     public boolean equals(Object o) {

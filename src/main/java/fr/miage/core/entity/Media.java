@@ -1,13 +1,16 @@
 package fr.miage.core.entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-@Entity
-@Table(name="MEDIA")
+@Entity(name = "Media")
+@Table(name = "MEDIA")
 public class Media {
 
     @Id
@@ -16,8 +19,10 @@ public class Media {
     private Long mediaId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.media")
-    private Set<UserMedia> userMedias = new HashSet<>(0);
+    private Set<UserMedia> userMedias = new HashSet<UserMedia>();
 
+
+    //@NaturalId
     @NotNull
     @Size(min=5, max=30)
     @Column(name="mediaTitle",nullable = false)
@@ -40,6 +45,7 @@ public class Media {
     @ManyToOne
     @JoinColumn(name = "typeId", nullable = false)
     private MediaType mediaType;
+
 
     public Long getMediaId() {
         return mediaId;
@@ -89,20 +95,10 @@ public class Media {
         this.mediaAuthor = mediaAuthor;
     }
 
-    public Set<UserMedia> getUserMedias() {
-        return userMedias;
-    }
-
-    public void setUserMedias(Set<UserMedia> userMedias) {
-        this.userMedias = userMedias;
-    }
-
-
-
 
     public Media() {}
 
-    public Media(String mediaTitle, String mediaDescription, String mediaAuthor, MediaType type, Set<UserMedia> userMedias) {
+    public Media(String mediaTitle, String mediaDescription, String mediaAuthor, MediaType type,Set<UserMedia> userMedias) {
         this.mediaTitle = mediaTitle;
         this.mediaDescription=mediaDescription;
         this.mediaAuthor= mediaAuthor;
@@ -111,8 +107,13 @@ public class Media {
         this.userMedias=userMedias;
     }
 
+    public Set<UserMedia> getUserMedias() {
+        return userMedias;
+    }
 
-
+    public void setUserMedias(Set<UserMedia> userMedias) {
+        this.userMedias = userMedias;
+    }
 
     @Override
     public String toString() {
