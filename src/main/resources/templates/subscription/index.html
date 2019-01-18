@@ -43,13 +43,13 @@
                                     <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Field name has errors</span>
                                 </div>
                             </div>
-                            <div  class="form-group">
+                            <!--div  class="form-group">
                                 <label for="user_sub" >User</label>
                                 <div>
-                                    <input class="form-control" id="user_sub" type="text" th:field="*{user_sub}" th:placeholder="${#authentication.getPrincipal().getUserId()}" />
+                                    <input class="form-control" id="user_sub" type="hidden" th:field="*{user_sub}" th:value="${#authentication.getPrincipal().getUserId()}" />
                                     <span th:if="${#fields.hasErrors('user_sub')}" th:errors="*{user_sub}">Field name has errors</span>
                                 </div>
-                            </div>
+                            </div-->
 
 
                             <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">

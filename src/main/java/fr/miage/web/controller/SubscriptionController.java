@@ -6,6 +6,8 @@ import fr.miage.core.service.SubscriptionService;
 import fr.miage.core.service.SubscriptionTypeService;
 import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,9 @@ public class SubscriptionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JavaMailSender emailSender;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
@@ -68,6 +73,7 @@ public class SubscriptionController {
             model.addAttribute("content", "subscription/index");
             return "base";
         }
+
         subscriptionService.save(subscription);
         return "redirect:/subscription";
     }
@@ -85,9 +91,21 @@ public class SubscriptionController {
         model.addAttribute("title", title);
         String content="subscription/index";
         model.addAttribute("content", content);
+
+        /*
+        if(subscriptionService.findBySubscriptionId(id).isSubscriptionStatus()== true){}*/
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(this.subscriptionService.findBySubscriptionId(id).getUser_sub().getUserMail().toString());
+            message.setSubject("Validation de votre abonnement ");
+            message.setText("Nous sommes très heureux de confirmer votre abonnement . \n" +
+                    "Toute l’équipe de Miage vous remercie pour votre confiance et vous souhaite la bienvenue.");
+            emailSender.send(message);
+
+
+
         return "base";
     }
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         subscriptionService.delete(id);

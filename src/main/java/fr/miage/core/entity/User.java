@@ -47,7 +47,11 @@ public class User {
     @OneToMany(mappedBy = "user_sub")
     private List<Subscription> subscriptions;
 
-    public User() {
+    public User(String userMail) {
+        this.userMail=userMail;
+    }
+    public User(){
+
     }
     User(User user){
         this.userId = user.getUserId();
