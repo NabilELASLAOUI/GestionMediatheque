@@ -1,4 +1,4 @@
-package fr.miage.core.service.impl;
+package fr.miage.core.service;
 
 import fr.miage.core.entity.CustomUserDetails;
 import fr.miage.core.entity.User;
