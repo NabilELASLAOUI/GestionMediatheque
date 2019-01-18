@@ -147,7 +147,7 @@ public class UserController {
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("User", userService.findByuserId(id));
         model.addAttribute("roles", roleService.findAll());
-        String action="/user/create";
+        String action="/user/edit";
         model.addAttribute("action",action);
         /*************   Title and Content html*******************************/
         String title="Modification";
@@ -155,6 +155,25 @@ public class UserController {
         String content="user/add";
         model.addAttribute("content", content);
         return "base";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String submitEdit(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getModel().values());
+            model.addAttribute("action","/user/edit");
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("title", "Utilisateurs");
+            model.addAttribute("content", "user/add");
+            model.addAttribute("urlUser","User");
+            return "base";
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
+        userService.save(user);
+        LOGGER.info("save: "+userService.save(user));
+        return "redirect:/user";
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
@@ -180,7 +199,7 @@ public class UserController {
     @RequestMapping(value = "/monCompte", method = RequestMethod.GET)
     public String monCompte(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findByuserId(id));
-        model.addAttribute("subscriptions", subscriptionService.findAll());
+        model.addAttribute("subscriptions", userService.findByuserId(id).getSubscriptions());
         model.addAttribute("userId", id);
         model.addAttribute("User", new User());
         String title="Mon Compte";
