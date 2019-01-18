@@ -1,8 +1,10 @@
 package fr.miage.web.controller;
 
 
+import fr.miage.core.entity.Role;
 import fr.miage.core.entity.User;
 import fr.miage.core.entity.VerificationToken;
+import fr.miage.core.repository.UserRepository;
 import fr.miage.core.service.RoleService;
 import fr.miage.core.service.SubscriptionService;
 import fr.miage.core.service.UserService;
@@ -23,6 +25,8 @@ import org.springframework.web.context.request.WebRequest;
 
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -64,12 +68,18 @@ public class UserController {
 
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addUser(Model model) {
-        /*************   add a media*******************************/
+        /*************   add a user*******************************/
         model.addAttribute("action","/user/create");
         model.addAttribute("User", new User());
-        model.addAttribute("roles", roleService.findAll());
+        List<Role> roles = new ArrayList<>();
+        for (Role role : roleService.findAll()){
+            if (!role.getRoleName().equalsIgnoreCase("ADMIN")){
+                roles.add(role);
+            }
+        }
+        model.addAttribute("roles", roles);
         /*************   Title and Content html*******************************/
-        model.addAttribute("title", "Medias");
+        model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/add");
         model.addAttribute("urlUSer","user");
         return "base";
@@ -85,7 +95,7 @@ public class UserController {
             model.addAttribute("urlUser","User");
             return "base";
         }
-        LOGGER.info("--------->user id: "+user.getUserId());
+        LOGGER.info("--------->user role: "+user.getRoles().getRoleName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         LOGGER.info("save: "+userService.save(user));
