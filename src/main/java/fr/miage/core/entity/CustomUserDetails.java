@@ -11,14 +11,16 @@ import java.util.stream.Collectors;
 
 public class CustomUserDetails extends User implements UserDetails {
 
+    /** Cette classe est utilisé pour l'authentification **/
     public CustomUserDetails(final User user){
         super(user);
     }
+
+    /* cette renvoie la liste des roles autorisés */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<>();
         list.add(new SimpleGrantedAuthority("ROLE_" + getRoles().getRoleName()));
-
         return list;
     }
 

@@ -83,7 +83,7 @@ public class SubscriptionController {
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("Subscription", this.subscriptionService.findBySubscriptionId(id));
         model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", subscriptionService.findBySubscriptionId(id).getUser_sub().getUserId());
         String action="/subscription/edit";
         model.addAttribute("action",action);
         /*************   Title and Content html*******************************/
@@ -96,19 +96,20 @@ public class SubscriptionController {
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String editPost(@Valid @ModelAttribute Subscription subscription, BindingResult bindingResult, Model model) {
-        LOGGER.info("user email: "+subscription.getUser_sub().getUserMail());
-        model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
-        model.addAttribute("users", userService.findAll());
-        String action="/subscription/edit";
-        model.addAttribute("action",action);
-        /*************   Title and Content html*******************************/
-        String title="Modification";
-        model.addAttribute("title", title);
-        String content="subscription/index";
-        model.addAttribute("content", content);
+        if (bindingResult.hasErrors()){
+            model.addAttribute("Subscription", subscription);
+            model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
+            model.addAttribute("user", subscription.getUser_sub().getUserId());
+            String action="/subscription/edit";
+            model.addAttribute("action",action);
+            /*************   Title and Content html*******************************/
+            String title="Modification";
+            model.addAttribute("title", title);
+            String content="subscription/index";
+            model.addAttribute("content", content);
+            return "base";
+        }
 
-        /*
-        if(subscriptionService.findBySubscriptionId(id).isSubscriptionStatus()== true){}*/
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(subscription.getUser_sub().getUserMail());
         message.setSubject("Validation de votre abonnement ");
@@ -116,7 +117,7 @@ public class SubscriptionController {
                 "Toute l’équipe de Miage vous remercie pour votre confiance et vous souhaite la bienvenue.");
         subscriptionService.save(subscription);
         emailSender.send(message);
-        return "base";
+        return "redirect:/subscription";
     }
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)

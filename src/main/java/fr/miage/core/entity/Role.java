@@ -4,9 +4,14 @@ import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/* l'annotation @Entity et @Table pour utiliser JPA dans la gérération de la table Role dans la base de données  */
 @Entity
 @Table(name="ROLE")
 public class Role {
+
+    /* l'annotation @ID pour spécifer que le champ est un identifiant*/
+    /* l'annotation @Column pour spécifier le nom de l'attribut dans la table*/
+    /* l'annotation @GeneratedValue pour générer l'id automatiquement*/
     @Id
     @Column(name="roleId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +20,7 @@ public class Role {
     @Column(name="roleName")
     private String roleName;
 
+    /* l'annotation @OneToMany pour utiliser la relation 1:n et mappedBy pour indiquer le champ dans l'autre entité */
     @OneToMany(mappedBy = "roles")
     private final List<User> users = new LinkedList<>();
 
