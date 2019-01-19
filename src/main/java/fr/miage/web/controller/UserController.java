@@ -3,6 +3,7 @@ package fr.miage.web.controller;
 
 import fr.miage.core.entity.Role;
 import fr.miage.core.entity.User;
+import fr.miage.core.entity.UserMedia;
 import fr.miage.core.entity.VerificationToken;
 import fr.miage.core.repository.UserRepository;
 import fr.miage.core.service.RoleService;
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Controller
@@ -61,6 +63,24 @@ public class UserController {
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/index");
+        model.addAttribute("urlUser","utilisateurs");
+
+        return "base";
+    }
+
+    @PreAuthorize("hasAnyRole('CLIENT')")
+    @RequestMapping(value="/myborrowings" , method = RequestMethod.GET)
+    public String getBorrowings(Model model) {
+        Optional<User> user=null;
+        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (currentUser != "anonymousUser"){
+           user = userService.findByUserName(currentUser);
+        }
+        Set<UserMedia> mesEmprunts = user.get().getUserMedias();
+        /***********  List des users   *****************/
+        model.addAttribute("mesEmprunts", mesEmprunts);
+        model.addAttribute("title", "MEs emprunts");
+        model.addAttribute("content", "user/emprunt");
         model.addAttribute("urlUser","utilisateurs");
 
         return "base";
