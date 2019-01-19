@@ -57,9 +57,7 @@ public class User {
     public User(){
 
     }
-    public User(String name) {
-        this.userName=name;
-    }
+
     User(User user){
         this.userId = user.getUserId();
         this.userName = user.getUserName();
@@ -71,12 +69,10 @@ public class User {
         this.enabled=user.isEnabled();
     }
 
-<<<<<<< HEAD
-    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Set<Role> roles,Set<UserMedia> userMedias)
+
+    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Role roles,Set<UserMedia> userMedias)
     {
-=======
-    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Role roles) {
->>>>>>> 28c36e95474e40e0c5629cc5d9dc00c46d9bd3f1
+
         this.userId = userid;
         this.userName = username;
         this.userMail = usermail;

@@ -55,7 +55,7 @@ public class FrontController {
     }
 
     @RequestMapping(value = "/borrowing",method = RequestMethod.GET)
-    public String getAll(Model model, Principal principal) {
+    public String getAll(Model model) {
         List<Set<UserMedia>> emprunts= new ArrayList<>();
         List<User> users = userService.findAll();
         for (User user : users)

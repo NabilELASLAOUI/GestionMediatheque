@@ -20,13 +20,10 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
               <div sec:authorize="isAuthenticated()">Bonjour <span th:text ="${#authentication.getPrincipal().getUsername()}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
             </a>
-<<<<<<< HEAD
             <ul class="dropdown-menu dropdown-user" th:if="${username}">
                 <li><a th:href="@{/user/monCompte(id=${userID})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
-=======
             <ul class="dropdown-menu dropdown-user">
                 <li><a th:href="@{/user/monCompte(id=${#authentication.getPrincipal().getUserId()})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
->>>>>>> 28c36e95474e40e0c5629cc5d9dc00c46d9bd3f1
                 </li>
                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
                 </li>
