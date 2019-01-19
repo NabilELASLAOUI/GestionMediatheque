@@ -2,16 +2,20 @@ package fr.miage.core.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@Entity
+@Entity(name = "User")
 @Table(name="USER")
+
 public class User {
     @Id
     @Column(name="userId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
+    private Set<UserMedia> userMedias = new HashSet<UserMedia>();
+
 
     @NotNull
     @Column(name="userName")
@@ -53,6 +57,7 @@ public class User {
     public User(){
 
     }
+
     User(User user){
         this.userId = user.getUserId();
         this.userName = user.getUserName();
@@ -64,7 +69,10 @@ public class User {
         this.enabled=user.isEnabled();
     }
 
-    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Role roles) {
+
+    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Role roles,Set<UserMedia> userMedias)
+    {
+
         this.userId = userid;
         this.userName = username;
         this.userMail = usermail;
@@ -73,6 +81,7 @@ public class User {
         this.userPhone = userphone ;
         this.roles = roles;
         this.enabled=false;
+        this.userMedias=userMedias;
     }
 
     public Long getUserId() {
@@ -148,6 +157,16 @@ public class User {
         return subscription;
     }
 */
+
+
+    public Set<UserMedia> getUserMedias() {
+        return userMedias;
+    }
+
+    public void setUserMedias(Set<UserMedia> userMedias) {
+        this.userMedias = userMedias;
+
+    }
 
     public List<Subscription> getSubscriptions() {
         return subscriptions;

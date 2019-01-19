@@ -1,20 +1,23 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading"> Média <span class="pull-right smenu"><a th:href="@{/}">Accueil <i class="fa fa-arrow-right"></i></a><a th:href="@{/media}">Médias </a></span></div>
+            <div class="panel-heading">
+                <p  th:text="${' Titre du Média:        ' + media.mediaTitle}"></p>
+                <a sec:authorize="isAuthenticated()" th:href="@{/media/emprunter(id=${media.mediaId})}"><button class="bg-primary">Emprunter</button></a>
+
+            </div>
 
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-lg-offset-1 col-lg-8">
-                        <p  th:text="${' Titre :        ' + media.mediaTitle}"></p>
+                    <div class="col-lg-8">
                         <p  th:text="${' Description :  ' + media.mediaDescription}"></p>
                         <p  th:text="${' Auteur :       ' + media.mediaAuthor}"></p>
                         <p  th:text="${media.mediaStatus}==true?'Etat : Disponible':'Etat : Indisponoble'"></p>
 
                     </div>
                 </div>
-
             </div>
+
         </div>
     </div>
 </div>

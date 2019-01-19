@@ -48,7 +48,7 @@
                                 <label for="mediaStatus" >Etat :</label>
                                 <div>
                                     <select th:field="*{mediaStatus}" id="mediaStatus" class="form-control">
-                                        <option th:value="true">Disponible</option>
+                                        <option th:value="true" selected>Disponible</option>
                                         <option th:value="false" >Indisponible</option>
                                     </select>
                                     <span th:if="${#fields.hasErrors('mediaStatus')}" th:errors="*{mediaStatus}" />

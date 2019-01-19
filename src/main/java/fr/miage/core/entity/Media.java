@@ -1,11 +1,16 @@
 package fr.miage.core.entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.*;
 
-@Entity
-@Table(name="MEDIA")
+@Entity(name = "Media")
+@Table(name = "MEDIA")
 public class Media {
 
     @Id
@@ -13,6 +18,11 @@ public class Media {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long mediaId;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.media")
+    private Set<UserMedia> userMedias = new HashSet<UserMedia>();
+
+
+    //@NaturalId
     @NotNull
     @Size(min=5, max=30)
     @Column(name="mediaTitle",nullable = false)
@@ -31,6 +41,11 @@ public class Media {
     @Column(name="mediaAuthor",nullable = false)
     @Size(min=5, max=30)
     private String mediaAuthor;
+
+    @ManyToOne
+    @JoinColumn(name = "typeId", nullable = false)
+    private MediaType mediaType;
+
 
     public Long getMediaId() {
         return mediaId;
@@ -80,20 +95,25 @@ public class Media {
         this.mediaAuthor = mediaAuthor;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "typeId", nullable = false)
-    private MediaType mediaType;
 
     public Media() {}
 
-    public Media(String mediaTitle, String mediaDescription, String mediaAuthor, MediaType type) {
+    public Media(String mediaTitle, String mediaDescription, String mediaAuthor, MediaType type,Set<UserMedia> userMedias) {
         this.mediaTitle = mediaTitle;
         this.mediaDescription=mediaDescription;
         this.mediaAuthor= mediaAuthor;
         this.mediaStatus=true;
         this.mediaType= type;
+        this.userMedias=userMedias;
     }
 
+    public Set<UserMedia> getUserMedias() {
+        return userMedias;
+    }
+
+    public void setUserMedias(Set<UserMedia> userMedias) {
+        this.userMedias = userMedias;
+    }
 
     @Override
     public String toString() {
