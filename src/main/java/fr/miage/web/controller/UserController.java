@@ -1,11 +1,10 @@
 package fr.miage.web.controller;
 
 
-import fr.miage.core.entity.Role;
-import fr.miage.core.entity.User;
-import fr.miage.core.entity.UserMedia;
-import fr.miage.core.entity.VerificationToken;
+import fr.miage.core.entity.*;
+import fr.miage.core.repository.UserMediaRepository;
 import fr.miage.core.repository.UserRepository;
+import fr.miage.core.service.MediaService;
 import fr.miage.core.service.RoleService;
 import fr.miage.core.service.SubscriptionService;
 import fr.miage.core.service.UserService;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,12 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private MediaService mediaService;
+
+    @Autowired
+    private UserMediaRepository userMediaRepository;
+
+    @Autowired
     private RoleService roleService;
 
     @Autowired
@@ -50,6 +56,8 @@ public class UserController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    private EntityManager entityManager;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
@@ -79,11 +87,36 @@ public class UserController {
         Set<UserMedia> mesEmprunts = user.get().getUserMedias();
         /***********  List des users   *****************/
         model.addAttribute("mesEmprunts", mesEmprunts);
-        model.addAttribute("title", "MEs emprunts");
+        model.addAttribute("title", "Mes emprunts");
         model.addAttribute("content", "user/emprunt");
-        model.addAttribute("urlUser","utilisateurs");
+        model.addAttribute("urlMyBorrowing","borrowings");
 
         return "base";
+    }
+
+
+    @RequestMapping(value="/borrowingedit/{userId}/{mediaId}" , method = RequestMethod.GET)
+    public String updateBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
+        User user =userService.findByuserId(userId);
+        UserMediaId pk= new UserMediaId();
+        pk.setUser(userService.findByuserId(userId));
+        pk.setMedia(mediaService.findByMediaId(mediaId));
+
+        UserMedia userMedia= userMediaRepository.findByUserMediaId(pk);
+
+
+        Set<UserMedia> userMedias = user.getUserMedias();
+       for(UserMedia um :userMedias){
+           if(um.getPk()==userMedia.getPk()){
+               um.setStatus(true);
+           }
+       }
+
+       user.setUserMedias(userMedias);
+       userService.save(user);
+
+        return "redirect:/borrowing";
+
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.GET)

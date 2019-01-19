@@ -18,7 +18,7 @@
                             <th>Type du Media</th>
                             <th>Date d'emprunt</th>
                             <th>Date de retour</th>
-                            <th>Status</th>
+                            <th>Retour</th>
                             <th sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">Action</th>
                         </tr>
                         </thead>
@@ -30,7 +30,7 @@
                                 <td><span th:text="${empruntUser.media.mediaType.typeName}"></span></td>
                                 <td><span th:text="${empruntUser.borrowingDate}"></span></td>
                                 <td><span th:text="${empruntUser.returnDate}"></span></td>
-                                <td><span th:text="${empruntUser.status}"></span></td>
+                                <td><button class="btn btn-default" th:onclick="'retourMedia(\''+${empruntUser.user.userId} + '\',\''+ ${empruntUser.media.mediaId}+'\');'"> <span id = "status" th:text="${empruntUser.status}==true?'Oui':'Non'"></span></button></td>
                                 <td sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">
                                     <a href="">Modifier</a>|
                                     <a onclick="">Supprimer</a>
@@ -54,4 +54,13 @@
         if(confirm("Souhaitez-vous vraiment supprimer ce element ?"))
             window.location.href="media/delete/"+id;
     }
+
+    function retourMedia(userId,mediaId){
+        if(confirm("Confirmez-vous le retour de ce Média ?")){
+
+            window.location.href="user/borrowingedit/"+userId+"/"+mediaId;
+        }
+
+    }
+
 </script>
