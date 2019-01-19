@@ -18,17 +18,15 @@
         <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-              <div sec:authorize="isAuthenticated()">Bonjour <span th:text ="${#authentication.getPrincipal().getUsername()}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
+                <div sec:authorize="isAuthenticated()">Bonjour <span th:text ="${#authentication.getPrincipal().getUsername()}"></span><i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i></div>
             </a>
-            <ul class="dropdown-menu dropdown-user" th:if="${username}">
-                <li><a th:href="@{/user/monCompte(id=${userID})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a th:href="@{/user/monCompte(id=${#authentication.getPrincipal().getUserId()})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/user/monCompte(id=${#authentication.getPrincipal().getUserId()})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
                 </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
+                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                 </li>
                 <li class="divider"></li>
-                <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
+                <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
@@ -42,12 +40,6 @@
         <ul class="nav" id="main-menu">
             <li>
                 <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/}"><i class="fa fa-dashboard"></i> Accueil</a>
-            </li>
-            <li sec:authorize="!isAuthenticated()">
-                <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/user/add}"><i class="fa fa-dashboard"></i> Inscription</a>
-            </li>
-            <li sec:authorize="!isAuthenticated()">
-                <a th:class="${AccueilSubscription} ? 'active-menu' : 'nav-link'" th:href="@{/login}"><i class="fa fa-dashboard"></i> Connexion</a>
             </li>
             <li sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">
                 <a href="#"><i class="fa fa-list-alt"></i> Média <span class="fa arrow"></span></a>
@@ -83,14 +75,10 @@
                 <a th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
             </li-->
             <li >
-                <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYE')" th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Abonnement</span></a>
+                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Abonnement</span></a>
             </li>
             <li >
-                <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYE')" th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
-            </li>
-
-            <li >
-                <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYE')" th:class="${urlBorrowing} ? 'active-menu' : 'nav-link'"  th:href="@{/borrowing}"><i class="fa fa-plus"></i>Emprunts</span></a>
+                <a th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
             </li>
         </ul>
 
