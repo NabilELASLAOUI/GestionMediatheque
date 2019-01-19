@@ -152,7 +152,7 @@ public class User {
     public Subscription getSubscription() {
         return subscription;
     }
-<<<<<<< HEAD
+*/
 
 
     public Set<UserMedia> getUserMedias() {
@@ -161,8 +161,8 @@ public class User {
 
     public void setUserMedias(Set<UserMedia> userMedias) {
         this.userMedias = userMedias;
-=======
-*/
+
+    }
 
     public List<Subscription> getSubscriptions() {
         return subscriptions;
@@ -170,6 +170,5 @@ public class User {
 
     public void setSubscriptions(List<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
->>>>>>> e0b63c20aa52539eae1aed4461d4e73a8b94671e
     }
 }

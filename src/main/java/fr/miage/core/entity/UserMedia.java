@@ -16,8 +16,10 @@ import javax.persistence.*;
 public class UserMedia{
 
     private UserMediaId pk = new UserMediaId();
-    private LocalDateTime borrowingDtae = LocalDateTime.now();
-    private LocalDateTime returnDate= borrowingDtae.plusDays(30);
+    private LocalDateTime borrowingDate = LocalDateTime.now();
+    private LocalDateTime returnDate= borrowingDate.plusDays(30);
+    private boolean status= false;
+
 
     public UserMedia() {
     }
@@ -50,12 +52,12 @@ public class UserMedia{
     }
 
 
-    public LocalDateTime getBorrowingDtae() {
-        return borrowingDtae;
+    public LocalDateTime getBorrowingDate() {
+        return borrowingDate;
     }
 
-    public void setBorrowingDtae(LocalDateTime borrowingDtae) {
-        this.borrowingDtae = borrowingDtae;
+    public void setBorrowingDate(LocalDateTime borrowingDtae) {
+        this.borrowingDate = borrowingDtae;
     }
 
     public LocalDateTime getReturnDate() {
@@ -64,6 +66,14 @@ public class UserMedia{
 
     public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public boolean equals(Object o) {

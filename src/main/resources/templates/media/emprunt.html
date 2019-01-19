@@ -1,0 +1,57 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- Advanced Tables -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+               Listes Des Emprunts
+                <a sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')" th:href="@{/media/add}"><button class="btn btn-primary pull-right">Ajouter un Media</button></a>
+
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>Nom du client</th>
+                            <th>Titre du Média</th>
+                            <th>Type du Media</th>
+                            <th>Date d'emprunt</th>
+                            <th>Date de retour</th>
+                            <th>Status</th>
+                            <th sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <span  th:each="emprunt : ${emprunts}">
+                            <tr th:each="empruntUser : ${emprunt}">
+                                <td><a href=""><span th:text="${empruntUser.user.userName}"></span></a></td>
+                                <td><span th:text="${empruntUser.media.mediaTitle}"></span></td>
+                                <td><span th:text="${empruntUser.media.mediaType.typeName}"></span></td>
+                                <td><span th:text="${empruntUser.borrowingDate}"></span></td>
+                                <td><span th:text="${empruntUser.returnDate}"></span></td>
+                                <td><span th:text="${empruntUser.status}"></span></td>
+                                <td sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">
+                                    <a href="">Modifier</a>|
+                                    <a onclick="">Supprimer</a>
+                                </td>
+                             </tr>
+                        </span>
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!--End Advanced Tables -->
+    </div>
+</div>
+<script type="text/javascript">
+    function deleteMedia(id){
+
+        if(confirm("Souhaitez-vous vraiment supprimer ce element ?"))
+            window.location.href="media/delete/"+id;
+    }
+</script>
