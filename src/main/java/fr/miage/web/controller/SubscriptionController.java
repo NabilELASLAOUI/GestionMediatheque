@@ -6,6 +6,8 @@ import fr.miage.core.service.SubscriptionService;
 import fr.miage.core.service.SubscriptionTypeService;
 import fr.miage.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,9 @@ public class SubscriptionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JavaMailSender emailSender;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
@@ -68,6 +73,7 @@ public class SubscriptionController {
             model.addAttribute("content", "subscription/index");
             return "base";
         }
+
         subscriptionService.save(subscription);
         return "redirect:/subscription";
     }
@@ -78,7 +84,7 @@ public class SubscriptionController {
         model.addAttribute("Subscription", this.subscriptionService.findBySubscriptionId(id));
         model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
         model.addAttribute("users", userService.findAll());
-        String action="/subscription/create";
+        String action="/subscription/edit";
         model.addAttribute("action",action);
         /*************   Title and Content html*******************************/
         String title="Modification";
@@ -87,7 +93,32 @@ public class SubscriptionController {
         model.addAttribute("content", content);
         return "base";
     }
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String editPost(@Valid @ModelAttribute Subscription subscription, BindingResult bindingResult, Model model) {
+        LOGGER.info("user email: "+subscription.getUser_sub().getUserMail());
+        model.addAttribute("subscriptionTypes", subscriptionTypeService.findAll());
+        model.addAttribute("users", userService.findAll());
+        String action="/subscription/edit";
+        model.addAttribute("action",action);
+        /*************   Title and Content html*******************************/
+        String title="Modification";
+        model.addAttribute("title", title);
+        String content="subscription/index";
+        model.addAttribute("content", content);
+
+        /*
+        if(subscriptionService.findBySubscriptionId(id).isSubscriptionStatus()== true){}*/
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(subscription.getUser_sub().getUserMail());
+        message.setSubject("Validation de votre abonnement ");
+        message.setText("Nous sommes très heureux de confirmer votre abonnement . \n" +
+                "Toute l’équipe de Miage vous remercie pour votre confiance et vous souhaite la bienvenue.");
+        subscriptionService.save(subscription);
+        emailSender.send(message);
+        return "base";
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         subscriptionService.delete(id);

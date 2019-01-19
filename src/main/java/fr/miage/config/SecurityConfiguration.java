@@ -2,7 +2,7 @@ package fr.miage.config;
 
 import fr.miage.core.entity.User;
 import fr.miage.core.repository.UserRepository;
-import fr.miage.core.service.impl.CustomUserDetailsService;
+import fr.miage.core.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

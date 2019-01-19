@@ -49,7 +49,9 @@
                                 <label for="typeName" >Role</label>
                                 <select th:field="*{roles}">
                                     <option th:value="null">Aucun role</option>
-                                    <option th:each="role : ${roles}" th:value="${role.roleId}"><span th:text="${role.roleName}"></span></option>
+                                    <option th:each="role : ${roles}" th:value="${role.roleId}">
+                                        <span th:text="${role.roleName}"></span>
+                                    </option>
                                 </select>
                                 <span th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" />
                             </div>

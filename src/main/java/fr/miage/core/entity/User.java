@@ -40,9 +40,8 @@ public class User {
     private boolean enabled;
 
     @NotNull
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @ManyToOne
+    private Role roles;
 
     /*
     @ManyToOne
@@ -52,7 +51,11 @@ public class User {
     @OneToMany(mappedBy = "user_sub")
     private List<Subscription> subscriptions;
 
-    public User() {
+    public User(String userMail) {
+        this.userMail=userMail;
+    }
+    public User(){
+
     }
     public User(String name) {
         this.userName=name;
@@ -68,8 +71,12 @@ public class User {
         this.enabled=user.isEnabled();
     }
 
+<<<<<<< HEAD
     public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Set<Role> roles,Set<UserMedia> userMedias)
     {
+=======
+    public User(Long userid, String username,String usermail ,String userpassword,String useraddress,String userphone, Role roles) {
+>>>>>>> 28c36e95474e40e0c5629cc5d9dc00c46d9bd3f1
         this.userId = userid;
         this.userName = username;
         this.userMail = usermail;
@@ -105,9 +112,6 @@ public class User {
         return userPhone;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
 
     public void setUserId(Long userId) {
         this.userId = userId;
@@ -133,7 +137,11 @@ public class User {
         this.userPhone = userPhone;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public Role getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Role roles) {
         this.roles = roles;
     }
 

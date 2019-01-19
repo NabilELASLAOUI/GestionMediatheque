@@ -1,8 +1,10 @@
 package fr.miage.web.controller;
 
 
+import fr.miage.core.entity.Role;
 import fr.miage.core.entity.User;
 import fr.miage.core.entity.VerificationToken;
+import fr.miage.core.repository.UserRepository;
 import fr.miage.core.service.RoleService;
 import fr.miage.core.service.SubscriptionService;
 import fr.miage.core.service.UserService;
@@ -23,6 +25,8 @@ import org.springframework.web.context.request.WebRequest;
 
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -64,18 +68,24 @@ public class UserController {
 
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addUser(Model model) {
-        /*************   add a media*******************************/
+        /*************   add a user*******************************/
         model.addAttribute("action","/user/create");
         model.addAttribute("User", new User());
-        model.addAttribute("roles", roleService.findAll());
+        List<Role> roles = new ArrayList<>();
+        for (Role role : roleService.findAll()){
+            if (!role.getRoleName().equalsIgnoreCase("ADMIN")){
+                roles.add(role);
+            }
+        }
+        model.addAttribute("roles", roles);
         /*************   Title and Content html*******************************/
-        model.addAttribute("title", "Medias");
+        model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/add");
         model.addAttribute("urlUSer","user");
         return "base";
     }
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
+    public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, WebRequest request) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getModel().values());
             model.addAttribute("action","/user/create");
@@ -85,10 +95,21 @@ public class UserController {
             model.addAttribute("urlUser","User");
             return "base";
         }
-        LOGGER.info("--------->user id: "+user.getUserId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.save(user);
-        LOGGER.info("save: "+userService.save(user));
+        User  registered  = userService.save(user);
+        if (registered == null) {
+            bindingResult.rejectValue("email", "message.regError");
+        }
+        try {
+            String appUrl = request.getContextPath();
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), appUrl));
+        } catch (Exception me) {
+            model.addAttribute("action","/user/create");
+            model.addAttribute("User", user);
+            model.addAttribute("title", "Utilisateurs");
+            model.addAttribute("content", "user/index");
+            return "base";
+        }
         return "redirect:/user";
     }
 
@@ -98,6 +119,8 @@ public class UserController {
 
         VerificationToken verificationToken = userService.getVerificationToken(token);
         User user = verificationToken.getUser();
+        LOGGER.info("---------> user token:"+user.getUserName());
+        user.setEnabled(true);
         userService.save(user);
         return "redirect:/user";
     }
@@ -124,7 +147,7 @@ public class UserController {
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("User", userService.findByuserId(id));
         model.addAttribute("roles", roleService.findAll());
-        String action="/user/create";
+        String action="/user/edit";
         model.addAttribute("action",action);
         /*************   Title and Content html*******************************/
         String title="Modification";
@@ -132,6 +155,25 @@ public class UserController {
         String content="user/add";
         model.addAttribute("content", content);
         return "base";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String submitEdit(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getModel().values());
+            model.addAttribute("action","/user/edit");
+            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("title", "Utilisateurs");
+            model.addAttribute("content", "user/add");
+            model.addAttribute("urlUser","User");
+            return "base";
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
+        userService.save(user);
+        LOGGER.info("save: "+userService.save(user));
+        return "redirect:/user";
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
@@ -157,7 +199,7 @@ public class UserController {
     @RequestMapping(value = "/monCompte", method = RequestMethod.GET)
     public String monCompte(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findByuserId(id));
-        model.addAttribute("subscriptions", subscriptionService.findAll());
+        model.addAttribute("subscriptions", userService.findByuserId(id).getSubscriptions());
         model.addAttribute("userId", id);
         model.addAttribute("User", new User());
         String title="Mon Compte";

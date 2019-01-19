@@ -21,9 +21,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-   // @Autowired
-    //private BCryptPasswordEncoder passwordEncoder;
-
     @Autowired
     private VerificationTokenRepository tokenRepository;
 
@@ -31,12 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User entity) {
-//        if (!emailExist(entity.getUserMail())) {
-//            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-//            LOGGER.info("----> password: "+passwordEncoder.encode(entity.getPassword()));
-//            return userRepository.save(entity);
-//        }
-       //  entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        if (!emailExist(entity.getUserMail())) {
+            return userRepository.save(entity);
+        }
         return userRepository.save(entity);
     }
 

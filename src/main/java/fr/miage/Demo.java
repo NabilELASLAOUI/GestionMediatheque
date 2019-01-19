@@ -16,10 +16,17 @@ public class Demo implements CommandLineRunner {
     @Autowired
     SubscriptionService subscriptionService;
 
+/*    @Autowired
+    private EmailUtil emailUtil;
+*/
     @Override
     @Transactional
     public void run(String... arg0) throws Exception {
+/*
+            SimpleMailMessage message = emailUtil.composeEmail();
+            mailSender.send(message);
+*/
 
 
-    }
+        }
 }

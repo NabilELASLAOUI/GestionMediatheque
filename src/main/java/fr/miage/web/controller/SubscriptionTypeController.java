@@ -5,6 +5,8 @@ import fr.miage.core.entity.SubscriptionType;
 import fr.miage.core.service.MediaTypeService;
 import fr.miage.core.service.SubscriptionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/subscriptiontype")
 public class SubscriptionTypeController {
+
+
 
     @Autowired
     SubscriptionTypeService subscriptionTypeService;
@@ -45,8 +49,13 @@ public class SubscriptionTypeController {
             /*************   Title and Content html*******************************/
             model.addAttribute("title", "Subscriptiontypes");
             model.addAttribute("content", "subscriptiontype/index");
+
+            //mail
+
+
             return "base";
         }
+
 
         subscriptionTypeService.save(subscriptiontype);
         return "redirect:/subscriptiontype";
