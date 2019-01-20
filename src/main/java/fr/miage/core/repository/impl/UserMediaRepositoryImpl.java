@@ -19,4 +19,14 @@ public class UserMediaRepositoryImpl implements UserMediaRepositoryCustom {
 
         return  query.getSingleResult();
     }
+
+    @Override
+    public void deleteUserMedia(UserMediaId userMediaId) {
+        final String sql= "delete  from UserMedia where pk=:userMediaId";
+        final TypedQuery<UserMedia> query= entityManager.createQuery(sql,UserMedia.class);
+        query.setParameter("userMediaId",userMediaId);
+
+        query.executeUpdate();
+
+    }
 }

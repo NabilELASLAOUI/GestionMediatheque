@@ -75,7 +75,6 @@ public class UserController {
         return "base";
     }
 
-<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('CLIENT')")
     @RequestMapping(value="/myborrowings" , method = RequestMethod.GET)
     public String getBorrowings(Model model) {
@@ -98,13 +97,11 @@ public class UserController {
     @RequestMapping(value="/borrowingedit/{userId}/{mediaId}" , method = RequestMethod.GET)
     public String updateBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
         User user =userService.findByuserId(userId);
-        UserMediaId pk= new UserMediaId();
-        pk.setUser(userService.findByuserId(userId));
-        pk.setMedia(mediaService.findByMediaId(mediaId));
-        UserMedia userMedia= userMediaRepository.findByUserMediaId(pk);
+        UserMedia userMedia= getUserMedia(userId,mediaId);
         Set<UserMedia> userMedias = user.getUserMedias();
        for(UserMedia um :userMedias){
            if(um.getPk()==userMedia.getPk()){
+               System.out.println("ffffffffffffffffffffffffffffffffffff");
                um.setStatus(true);
            }
        }
@@ -116,35 +113,46 @@ public class UserController {
 
     }
 
-    @RequestMapping(value="/deleteusermedia/{userId}/{mediaId}" , method = RequestMethod.GET)
-    public String deleteBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
-        User user =userService.findByuserId(userId);
+    public UserMedia getUserMedia(Long userId, Long mediaId)
+    {
+
         UserMediaId pk= new UserMediaId();
         pk.setUser(userService.findByuserId(userId));
         pk.setMedia(mediaService.findByMediaId(mediaId));
-
         UserMedia userMedia= userMediaRepository.findByUserMediaId(pk);
+        return userMedia;
+    }
 
-        Set<UserMedia> userMedias = user.getUserMedias();
-        Set<UserMedia> newUserMedias = new HashSet<>();
-
+    @RequestMapping(value="/deleteusermedia/{userId}/{mediaId}" , method = RequestMethod.GET)
+    public String deleteBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
+        UserMediaId pk= new UserMediaId();
+        pk.setUser(userService.findByuserId(userId));
+        pk.setMedia(mediaService.findByMediaId(mediaId));
+        userMediaRepository.deleteUserMedia(pk);
+       /* UserMedia userMediaTmp=null;
         for(UserMedia um :userMedias){
-            if(um.getPk()!=userMedia.getPk()){
-                newUserMedias.add(um);
+            if(um.getPk()==userMedia.getPk()){
+                System.out.println("ggggggggggggggggggggggggggggggggggggggg"+userMedias.size());
+                userMediaTmp=um;
             }
         }
+        boolean isRemoved =userMedias.remove(userMediaTmp);
+        System.out.println("ffffffffffffffffffffffffffffffffffff "+isRemoved+userMedias.size());
+         if (isRemoved)
+         {
+             user.getUserMedias().clear();
+             //user.setUserMedias(userMedias);
+             userService.save(user);
+         }else {
+             System.out.println("ffffffffffffffffffffffffffffffffffff not removed");
+         }*/
 
-        user.getUserMedias().removeAll(userMedias);
-        user.setUserMedias(newUserMedias);
-        userService.save(user);
 
         return "redirect:/borrowing";
 
     }
 
-=======
     /* méthode pour retourner le formulaire d'ajout d'un utilisateur */
->>>>>>> 0a726afb19dd8cd64519735aa36e277475df7379
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addUser(Model model) {
         /*************   add a user*******************************/
