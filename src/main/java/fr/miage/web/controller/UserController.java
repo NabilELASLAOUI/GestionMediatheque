@@ -33,9 +33,10 @@ import java.util.*;
 @RequestMapping("/user")
 public class UserController {
 
+    /* l'injection de userService */
     @Autowired
     private UserService userService;
-
+    /* l'injection de roleService */
     @Autowired
     private MediaService mediaService;
 
@@ -44,13 +45,13 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
-
+    /* l'injection de subscriptionService */
     @Autowired
     private SubscriptionService subscriptionService;
-
+    /* l'injection de eventPublisher utiliser dans l'nvoie de mail */
     @Autowired
     ApplicationEventPublisher eventPublisher;
-
+    /* injection de passwordEncoder pour crypter le password*/
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -58,7 +59,8 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
-
+    /*méthode pour retourner la liste des utilisateurs*/
+    /* seul l'administrateur et l'employe qui peut accéder à cette méthode*/
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
@@ -73,6 +75,7 @@ public class UserController {
         return "base";
     }
 
+<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('CLIENT')")
     @RequestMapping(value="/myborrowings" , method = RequestMethod.GET)
     public String getBorrowings(Model model) {
@@ -139,36 +142,39 @@ public class UserController {
 
     }
 
+=======
+    /* méthode pour retourner le formulaire d'ajout d'un utilisateur */
+>>>>>>> 0a726afb19dd8cd64519735aa36e277475df7379
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addUser(Model model) {
         /*************   add a user*******************************/
         model.addAttribute("action","/user/create");
         model.addAttribute("User", new User());
-        List<Role> roles = new ArrayList<>();
-        for (Role role : roleService.findAll()){
-            if (!role.getRoleName().equalsIgnoreCase("ADMIN")){
-                roles.add(role);
-            }
-        }
-        model.addAttribute("roles", roles);
+        Role role = roleService.findByRoleName("CLIENT");
+        model.addAttribute("role", role);
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/add");
         model.addAttribute("urlUSer","user");
         return "base";
     }
+    /* méthode pour ajouter un utilisateur */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, WebRequest request) {
+        /* s'il y a une erreur on va retourner le formulaire d'inscription */
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getModel().values());
             model.addAttribute("action","/user/create");
+            model.addAttribute("User", new User());
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("title", "Utilisateurs");
             model.addAttribute("content", "user/add");
             model.addAttribute("urlUser","User");
             return "base";
         }
+        /* crypter le mot de passe */
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(roleService.findByRoleName("CLIENT"));
         User  registered  = userService.save(user);
         if (registered == null) {
             bindingResult.rejectValue("email", "message.regError");

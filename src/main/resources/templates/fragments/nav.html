@@ -26,10 +26,10 @@
             <ul class="dropdown-menu dropdown-user">
                 <li sec:authorize="isAuthenticated()"><a th:href="@{/user/monCompte(id=${#authentication.getPrincipal().getUserId()})}"><i class="fa fa-user fa-fw"></i> Mon Compte</a>
                 </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Paramètres</a>
                 </li>
                 <li class="divider"></li>
-                <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                <li><a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
@@ -71,15 +71,11 @@
                     </li>
                 </ul>
             </li>
-            <!--li sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Abonnement</span></a>
-            </li>
-            <li sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
-            </li-->
+
             <li >
                 <a sec:authorize="isAuthenticated()" th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i> Abonnement</span></a>
             </li>
+<<<<<<< HEAD
             <li >
                 <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYE')" th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
             </li>
@@ -88,6 +84,10 @@
             </li>
             <li >
                 <a sec:authorize="hasAnyRole('ROLE_CLIENT')" th:class="${urlMyBorrowing} ? 'active-menu' : 'nav-link'"  th:href="@{/user/myborrowings}"><i class="fa fa-plus"></i>Mes emprunts</span></a>
+=======
+            <li sec:authorize="hasAnyRole('ADMIN','EMPLOYE')">
+                <a th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
+>>>>>>> 0a726afb19dd8cd64519735aa36e277475df7379
             </li>
         </ul>
 

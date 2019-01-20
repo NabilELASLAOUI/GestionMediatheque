@@ -23,13 +23,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public Subscription save(Subscription entity) {
-        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (currentUser != "anonymousUser"){
-            Optional<User> user = userService.findByUserName(currentUser);
-            entity.setUser_sub(user.get());
-            return subscriptionRepository.save(entity);
-        }
-        return null;
+//        final String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (currentUser != "anonymousUser"){
+//            Optional<User> user = userService.findByUserName(currentUser);
+//            entity.setUser_sub(user.get());
+//            return subscriptionRepository.save(entity);
+//        }
+        return subscriptionRepository.save(entity);
     }
 
     @Override
