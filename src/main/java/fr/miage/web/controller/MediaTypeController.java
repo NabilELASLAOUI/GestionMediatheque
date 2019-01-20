@@ -3,6 +3,7 @@ package fr.miage.web.controller;
 import fr.miage.core.entity.MediaType;
 import fr.miage.core.service.MediaTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ public class MediaTypeController {
     @Autowired
     MediaTypeService mediatypeService;
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des types de media   *****************/
@@ -35,6 +37,7 @@ public class MediaTypeController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute MediaType mediaType, BindingResult bindingResult, Model model) {
         //LOGGER.info("******* create User *******");
@@ -52,6 +55,8 @@ public class MediaTypeController {
         mediatypeService.save(mediaType);
         return "redirect:/mediatype";
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("MediaType", mediatypeService.findByTypeId(id));
@@ -66,6 +71,7 @@ public class MediaTypeController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         mediatypeService.delete(id);

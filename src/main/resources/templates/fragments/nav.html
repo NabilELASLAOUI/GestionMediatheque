@@ -66,7 +66,7 @@
                     <li>
                         <a  th:href="@{/user}">utilisateurs</a>
                     </li>
-                    <li>
+                    <li sec:authorize="hasAnyRole('ADMIN')">
                         <a th:class="${urlRole} ? 'active-menu' : 'nav-link'" th:href="@{/role}"><i class="fa fa-paperclip"></i> Roles </a>
                     </li>
                 </ul>

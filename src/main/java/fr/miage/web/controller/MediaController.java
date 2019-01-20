@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.scheduling.concurrent.ScheduledExecutorTask;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,6 +63,7 @@ public class MediaController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addMedia(Model model) {
         /*************   add a media*******************************/
@@ -75,6 +77,7 @@ public class MediaController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Media media, BindingResult bindingResult, Model model, WebRequest request) {
         if (bindingResult.hasErrors()) {
@@ -109,6 +112,7 @@ public class MediaController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("media", mediaService.findByMediaId(id));
@@ -153,6 +157,7 @@ public class MediaController {
         return "redirect:/media";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         mediaService.delete(id);

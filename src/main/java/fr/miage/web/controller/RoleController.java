@@ -5,6 +5,7 @@ import fr.miage.core.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des roles   *****************/
@@ -37,6 +39,7 @@ public class RoleController {
         return "base";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Role role, BindingResult bindingResult, Model model) {
         //LOGGER.info("******* create User *******");
@@ -56,6 +59,8 @@ public class RoleController {
         roleService.save(role);
         return "redirect:/role";
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("Role", roleService.findById(id));
@@ -69,6 +74,8 @@ public class RoleController {
         model.addAttribute("content", content);
         return "base";
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         roleService.delete(id);
