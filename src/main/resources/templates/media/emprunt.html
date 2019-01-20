@@ -30,10 +30,12 @@
                                 <td><span th:text="${empruntUser.media.mediaType.typeName}"></span></td>
                                 <td><span th:text="${empruntUser.borrowingDate}"></span></td>
                                 <td><span th:text="${empruntUser.returnDate}"></span></td>
-                                <td><button class="btn btn-default" th:onclick="'retourMedia(\''+${empruntUser.user.userId} + '\',\''+ ${empruntUser.media.mediaId}+'\');'"> <span id = "status" th:text="${empruntUser.status}==true?'Oui':'Non'"></span></button></td>
+                                <td><button class="btn btn-default " th:onclick="'retourMedia(\''+${empruntUser.user.userId} + '\',\''+ ${empruntUser.media.mediaId}+'\');'">
+                                         <span class="status" th:text="${empruntUser.status}==true?'Oui':'Non'"></span>
+                                    </button>
+                                </td>
                                 <td sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">
-                                    <a href="">Modifier</a>|
-                                    <a onclick="">Supprimer</a>
+                                    <a th:onclick="'deleteUserMedia(\''+${empruntUser.user.userId} + '\',\''+ ${empruntUser.media.mediaId}+'\');'">Supprimer</a>
                                 </td>
                              </tr>
                         </span>
@@ -49,10 +51,20 @@
     </div>
 </div>
 <script type="text/javascript">
-    function deleteMedia(id){
+    //btns= document.getElementById("disabled");
+    elems=document.getElementsByClassName("status");
+    for(let i=0; i<elems.length;i++){
+        if(elems[i].textContent=="Oui")
+        {
+            elems[i].parentElement.setAttribute("disabled", "");
+        }
+    };
+
+
+    function deleteUserMedia(userId,mediaId){
 
         if(confirm("Souhaitez-vous vraiment supprimer ce element ?"))
-            window.location.href="media/delete/"+id;
+            window.location.href="user/deleteusermedia/"+userId+"/"+mediaId;
     }
 
     function retourMedia(userId,mediaId){

@@ -26,10 +26,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 
 @Controller
@@ -101,10 +98,7 @@ public class UserController {
         UserMediaId pk= new UserMediaId();
         pk.setUser(userService.findByuserId(userId));
         pk.setMedia(mediaService.findByMediaId(mediaId));
-
         UserMedia userMedia= userMediaRepository.findByUserMediaId(pk);
-
-
         Set<UserMedia> userMedias = user.getUserMedias();
        for(UserMedia um :userMedias){
            if(um.getPk()==userMedia.getPk()){
@@ -114,6 +108,32 @@ public class UserController {
 
        user.setUserMedias(userMedias);
        userService.save(user);
+
+        return "redirect:/borrowing";
+
+    }
+
+    @RequestMapping(value="/deleteusermedia/{userId}/{mediaId}" , method = RequestMethod.GET)
+    public String deleteBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
+        User user =userService.findByuserId(userId);
+        UserMediaId pk= new UserMediaId();
+        pk.setUser(userService.findByuserId(userId));
+        pk.setMedia(mediaService.findByMediaId(mediaId));
+
+        UserMedia userMedia= userMediaRepository.findByUserMediaId(pk);
+
+        Set<UserMedia> userMedias = user.getUserMedias();
+        Set<UserMedia> newUserMedias = new HashSet<>();
+
+        for(UserMedia um :userMedias){
+            if(um.getPk()!=userMedia.getPk()){
+                newUserMedias.add(um);
+            }
+        }
+
+        user.getUserMedias().removeAll(userMedias);
+        user.setUserMedias(newUserMedias);
+        userService.save(user);
 
         return "redirect:/borrowing";
 
