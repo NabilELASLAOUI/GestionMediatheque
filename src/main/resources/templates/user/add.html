@@ -57,9 +57,9 @@
                                 <span th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" />
                                 </div>
                             </div>
-                            <di sec:authorize="!isAuthenticated()">
+                            <div sec:authorize="!isAuthenticated()">
                                 <input class="form-control" id="roles" type="hidden" name="roles" th:value="${role.roleId}" />
-                            </di>
+                            </div>
                             <button type="submit" class="btn btn-default">Enregistrer</button>
                             <button type="reset" class="btn btn-default">Annuler</button>
                         </form>
