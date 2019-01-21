@@ -51,7 +51,7 @@
                                 <input class="form-control" id="user_sub" type="hidden" name="user_sub" th:value="${user}" />
                             </div>
 
-                            <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div class="form-group" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYE')">
                                 <label for="subscriptionStatus" >Etat :</label>
                                 <div>
                                     <select th:field="*{subscriptionStatus}" id="subscriptionStatus" class="form-control">
