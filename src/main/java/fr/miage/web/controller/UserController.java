@@ -190,7 +190,7 @@ public class UserController {
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.save(user);
-        return "redirect:/user";
+        return "redirect:/";
     }
 
     // Recherche par nom
