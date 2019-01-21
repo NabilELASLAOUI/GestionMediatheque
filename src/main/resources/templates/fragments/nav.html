@@ -72,11 +72,11 @@
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="fa fa-book"></i> Abonnements <span class="fa arrow"></span></a>
+                <a sec:authorize="isAuthenticated()" href="#"><i class="fa fa-book"></i> Abonnements <span class="fa arrow"></span></a>
 
                 <ul class="nav nav-second-level">
                     <li >
-                        <a sec:authorize="isAuthenticated()" th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i>liste des abonnements</span></a>
+                        <a  th:class="${urlSubscription} ? 'active-menu' : 'nav-link'"  th:href="@{/subscription}"><i class="fa fa-plus"></i>Gestion abonnement</span></a>
                     </li>
                     <li >
                         <a sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EMPLOYE')" th:class="${urlSubscriptiontype} ? 'active-menu' : 'nav-link'"  th:href="@{/subscriptiontype}"><i class="fa fa-plus"></i>Type Abonnement</span></a>
