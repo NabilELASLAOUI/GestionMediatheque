@@ -19,9 +19,11 @@ import java.util.List;
 @RequestMapping("/role")
 public class RoleController {
 
+    /* l'injection de roleService */
     @Autowired
     private RoleService roleService;
 
+    /*Cette methode renvoie la liste des roles*/
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
@@ -35,17 +37,17 @@ public class RoleController {
         model.addAttribute("title", "Roles");
         model.addAttribute("content", "role/index");
         model.addAttribute("urlRole","roles");
-
         return "base";
     }
 
+    /*cette methode sert a la creation d'un role*/
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Role role, BindingResult bindingResult, Model model) {
-        //LOGGER.info("******* create User *******");
+        //LOGGER.info("******* create role *******");
         if (bindingResult.hasErrors()) {
-            /***********  errors user create ****************/
-            //LOGGER.info("-----------> errors user create");
+            /***********  errors role create ****************/
+            //LOGGER.info("-----------> errors role create");
             model.addAttribute("action","/role/create");
             model.addAttribute("Role", role);
             /*************   Title and Content html*******************************/
@@ -53,13 +55,11 @@ public class RoleController {
             model.addAttribute("content", "role/index");
             return "base";
         }
-        // TO DO
-        // Encrypt password
-        // user.setUserPassword();
         roleService.save(role);
         return "redirect:/role";
     }
 
+    /*cette methode sert a la recuperation des données d'un role pour les modifier*/
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
@@ -75,6 +75,7 @@ public class RoleController {
         return "base";
     }
 
+    /*Cette methode supprime un role */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {

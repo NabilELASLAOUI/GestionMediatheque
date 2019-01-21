@@ -14,12 +14,15 @@ import java.util.UUID;
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 
+    /* l'injection de service */
     @Autowired
     private UserService service;
 
+    /* l'injection de messages */
     @Autowired
     private MessageSource messages;
 
+    /* l'injection de JavaMailSender */
     @Autowired
     private JavaMailSender mailSender;
 
@@ -28,6 +31,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         this.confirmRegistration(event);
     }
 
+    /*cette methode envoie un mail de confirmation d'inscription ainsi elle contient objet, url de confirmation et le message a envoyer au client*/
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         User user = event.getUser();
         String token = UUID.randomUUID().toString();

@@ -10,6 +10,10 @@
         <module name="prepaId" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gestionmediatheque" target="1.8" />
+      <module name="prepaId" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

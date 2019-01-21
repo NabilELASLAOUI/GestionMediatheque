@@ -76,6 +76,7 @@ public class UserController {
         return "base";
     }
 
+    /*  cette methode  renvoie les emprunts d'un client  */
     @PreAuthorize("hasAnyRole('CLIENT')")
     @RequestMapping(value="/myborrowings" , method = RequestMethod.GET)
     public String getBorrowings(Model model) {
@@ -95,6 +96,7 @@ public class UserController {
     }
 
 
+    /*  cette methode  permet de confirmer le retour d'un emprunt  */
     @RequestMapping(value="/borrowingedit/{userId}/{mediaId}" , method = RequestMethod.GET)
     public String updateBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
         User user =userService.findByuserId(userId);
@@ -102,18 +104,15 @@ public class UserController {
         Set<UserMedia> userMedias = user.getUserMedias();
        for(UserMedia um :userMedias){
            if(um.getPk()==userMedia.getPk()){
-               System.out.println("ffffffffffffffffffffffffffffffffffff");
                um.setStatus(true);
            }
        }
-
        user.setUserMedias(userMedias);
        userService.save(user);
-
         return "redirect:/borrowing";
-
     }
 
+    /*  cette methode  renvoie un emprunt d'un user  */
     public UserMedia getUserMedia(Long userId, Long mediaId)
     {
 
@@ -124,6 +123,7 @@ public class UserController {
         return userMedia;
     }
 
+    /*  cette methode  suprime un emprunt de la bdd  */
     @RequestMapping(value="/deleteusermedia/{userId}/{mediaId}" , method = RequestMethod.GET)
     public String deleteBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
         UserMediaId pk= new UserMediaId();
@@ -131,7 +131,6 @@ public class UserController {
         pk.setMedia(mediaService.findByMediaId(mediaId));
         userMediaRepository.deleteUserMedia(pk);
         return "redirect:/borrowing";
-
     }
 
     /* méthode pour retourner le formulaire d'ajout d'un utilisateur */
@@ -182,13 +181,12 @@ public class UserController {
         return "redirect:/user";
     }
 
+    /*  cette methode  enregistre un user en bdd */
     @Transactional
     @RequestMapping(value = "/regitrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
-
         VerificationToken verificationToken = userService.getVerificationToken(token);
         User user = verificationToken.getUser();
-        LOGGER.info("---------> user token:"+user.getUserName());
         user.setEnabled(true);
         userService.save(user);
         return "redirect:/user";
@@ -211,6 +209,7 @@ public class UserController {
         return "base";
     }
 
+    /*  cette methode  renvoie le formulaire de modification d'un user  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
@@ -226,6 +225,7 @@ public class UserController {
         return "base";
     }
 
+    /*  cette methode  met a jour un user   */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String submitEdit(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
@@ -240,10 +240,10 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userService.save(user);
-        LOGGER.info("save: "+userService.save(user));
         return "redirect:/user";
     }
 
+    /*  cette methode  permet de supprimer un utilisateur  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
@@ -264,6 +264,8 @@ public class UserController {
         return "base";
     }
 
+
+    /*  cette methode  met affiche le profile d'un user  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/monCompte", method = RequestMethod.GET)
     public String monCompte(@RequestParam("id") Long id, Model model) {
@@ -277,6 +279,7 @@ public class UserController {
         model.addAttribute("content", content);
         return "base";
     }
+    /*  cette methode  permet de renvoyer le formulaire de modification de mon profile  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
     public String settings(@RequestParam("id") Long id, Model model) {
@@ -289,6 +292,7 @@ public class UserController {
         model.addAttribute("content", content);
         return "base";
     }
+    /*  cette methode  permet de modifier mon profile  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
     public String submitSettings(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
@@ -307,6 +311,7 @@ public class UserController {
         redirectAttributes.addAttribute("id", user.getUserId());
         return "redirect:/user/monCompte/";
     }
+    /*  cette methode  renvoyer le formulaire de changement de mot de passe */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public String changePassword(@RequestParam("id") Long id, Model model) {
@@ -320,6 +325,8 @@ public class UserController {
         model.addAttribute("content", content);
         return "base";
     }
+
+    /*  cette methode  permet de changer le mot de passe  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
     public String submitChangePassword(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
@@ -339,6 +346,8 @@ public class UserController {
         redirectAttributes.addAttribute("id", user.getUserId());
         return "redirect:/user/monCompte/";
     }
+
+    /*  cette methode  enregistre les abonnements d'un user  */
     @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/subscription", method = RequestMethod.POST)
     public String Usersubscription(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {

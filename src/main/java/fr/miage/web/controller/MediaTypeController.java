@@ -40,6 +40,7 @@ public class MediaTypeController {
 
     /* cette methode permet d'ajouter un type de média*/
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
+    /*  cette methode  renvoie le formulaire de creation des types de media  */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute MediaType mediaType, BindingResult bindingResult, Model model) {
         //LOGGER.info("******* create User *******");

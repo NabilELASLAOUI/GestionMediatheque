@@ -16,3 +16,4 @@ public interface UserMediaRepositoryCustom{
 
     void deleteUserMedia(UserMediaId userMediaId);
 }
+

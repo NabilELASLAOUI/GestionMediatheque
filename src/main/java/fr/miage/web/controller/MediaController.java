@@ -8,14 +8,9 @@ import fr.miage.core.entity.UserMedia;
 import fr.miage.core.service.MediaTypeService;
 import fr.miage.core.service.MediaService;
 import fr.miage.core.service.UserService;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 
-import org.springframework.data.jpa.provider.HibernateUtils;
-import org.springframework.scheduling.concurrent.ScheduledExecutorTask;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,16 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import sun.util.logging.resources.logging;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.HashSet;
+
 import java.util.Optional;
-import java.util.Set;
 
 
 @Controller
@@ -48,6 +38,7 @@ public class MediaController {
     @Autowired
     private UserService userService;
 
+    /*  cette methode  renvoie la liste des  médias  */
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des medias   *****************/
@@ -61,6 +52,7 @@ public class MediaController {
         return "base";
     }
 
+    /*  cette methode  renvoie le formulaire d'ajout d'un média  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addMedia(Model model) {
@@ -75,6 +67,7 @@ public class MediaController {
         return "base";
     }
 
+    /*  cette methode  enregistre un média en bdd  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute Media media, BindingResult bindingResult, Model model, WebRequest request) {
@@ -110,6 +103,7 @@ public class MediaController {
         return "base";
     }
 
+    /*  cette methode  renvoie le formulaire d'édition d'un média  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
@@ -125,6 +119,7 @@ public class MediaController {
         return "base";
     }
 
+    /*  cette methode  renvoie la page de détail d'un média  */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam("id") Long id, Model model) {
         model.addAttribute("media", mediaService.findByMediaId(id));
@@ -136,6 +131,7 @@ public class MediaController {
         return "base";
     }
 
+    /*  cette methode  enregistre les médias emprunter par un user en bdd  */
     @RequestMapping(value = "/emprunter", method = RequestMethod.GET)
     public String emprunter(@RequestParam("id") Long id, Model model) {
         Long userId=null;
@@ -155,6 +151,7 @@ public class MediaController {
         return "redirect:/media";
     }
 
+    /*  cette methode  supprime un média de la bdd  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
