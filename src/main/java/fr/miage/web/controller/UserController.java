@@ -141,6 +141,7 @@ public class UserController {
         model.addAttribute("User", new User());
         Role role = roleService.findByRoleName("CLIENT");
         model.addAttribute("role", role);
+        model.addAttribute("roles", roleService.findAll());
         /*************   Title and Content html*******************************/
         model.addAttribute("title", "Utilisateurs");
         model.addAttribute("content", "user/add");
