@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/*le controlleur de la page d'accueil du site  */
 @Controller
 public class FrontController {
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
@@ -33,6 +34,7 @@ public class FrontController {
     @Autowired
     MediaService mediaService;
 
+    /*  cette methode  affiche la page d'accueil avec la liste des medias disponible  */
     @GetMapping("/")
     public String index(Model model){
        String content="index";
@@ -50,11 +52,13 @@ public class FrontController {
         return "base";
     }
 
+    /*  cette methode  renvoie le formulaire dd'authentification  */
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login(Model model, Principal principal) {
         return "login";
     }
 
+    /*  cette methode  renvoie les emprunts de tous les users */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/borrowing",method = RequestMethod.GET)
     public String getAll(Model model) {

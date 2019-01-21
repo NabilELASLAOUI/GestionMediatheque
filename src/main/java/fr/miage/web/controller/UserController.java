@@ -75,6 +75,7 @@ public class UserController {
         return "base";
     }
 
+    /*  cette methode  renvoie les emprunts d'un client  */
     @PreAuthorize("hasAnyRole('CLIENT')")
     @RequestMapping(value="/myborrowings" , method = RequestMethod.GET)
     public String getBorrowings(Model model) {
@@ -94,6 +95,7 @@ public class UserController {
     }
 
 
+    /*  cette methode  permet de confirmer le retour d'un emprunt  */
     @RequestMapping(value="/borrowingedit/{userId}/{mediaId}" , method = RequestMethod.GET)
     public String updateBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
         User user =userService.findByuserId(userId);
@@ -113,6 +115,7 @@ public class UserController {
 
     }
 
+    /*  cette methode  renvoie un emprunt d'un user  */
     public UserMedia getUserMedia(Long userId, Long mediaId)
     {
 
@@ -123,29 +126,13 @@ public class UserController {
         return userMedia;
     }
 
+    /*  cette methode  suprime un emprunt de la bdd  */
     @RequestMapping(value="/deleteusermedia/{userId}/{mediaId}" , method = RequestMethod.GET)
     public String deleteBorrowing(@PathVariable("userId") Long userId,@PathVariable("mediaId") Long mediaId, Model model) {
         UserMediaId pk= new UserMediaId();
         pk.setUser(userService.findByuserId(userId));
         pk.setMedia(mediaService.findByMediaId(mediaId));
         userMediaRepository.deleteUserMedia(pk);
-       /* UserMedia userMediaTmp=null;
-        for(UserMedia um :userMedias){
-            if(um.getPk()==userMedia.getPk()){
-                System.out.println("ggggggggggggggggggggggggggggggggggggggg"+userMedias.size());
-                userMediaTmp=um;
-            }
-        }
-        boolean isRemoved =userMedias.remove(userMediaTmp);
-        System.out.println("ffffffffffffffffffffffffffffffffffff "+isRemoved+userMedias.size());
-         if (isRemoved)
-         {
-             user.getUserMedias().clear();
-             //user.setUserMedias(userMedias);
-             userService.save(user);
-         }else {
-             System.out.println("ffffffffffffffffffffffffffffffffffff not removed");
-         }*/
 
 
         return "redirect:/borrowing";
@@ -200,6 +187,7 @@ public class UserController {
         return "redirect:/user";
     }
 
+    /*  cette methode  enregistre un user en bdd */
     @Transactional
     @RequestMapping(value = "/regitrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
@@ -229,6 +217,7 @@ public class UserController {
         return "base";
     }
 
+    /*  cette methode  renvoie le formulaire de modification d'un user  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
@@ -244,6 +233,7 @@ public class UserController {
         return "base";
     }
 
+    /*  cette methode  met a jour un user   */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String submitEdit(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
@@ -263,6 +253,7 @@ public class UserController {
         return "redirect:/user";
     }
 
+
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
@@ -270,6 +261,8 @@ public class UserController {
         return "redirect:/user";
     }
 
+
+    /*  cette methode  renvoie les details d'un user   */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam("id") Long id, Model model) {
@@ -282,6 +275,8 @@ public class UserController {
         return "base";
     }
 
+
+    /*  cette methode  met affiche le profile d'un user  */
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
     @RequestMapping(value = "/monCompte", method = RequestMethod.GET)
     public String monCompte(@RequestParam("id") Long id, Model model) {
@@ -296,6 +291,8 @@ public class UserController {
         return "base";
     }
 
+
+    /*  cette methode  enregistre les abonnements d'un user  */
     @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/subscription", method = RequestMethod.POST)
     public String Usersubscription(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {

@@ -20,6 +20,7 @@ public class MediaTypeController {
     @Autowired
     MediaTypeService mediatypeService;
 
+    /*  cette methode  renvoie la Liste des types de media  */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
@@ -37,6 +38,7 @@ public class MediaTypeController {
         return "base";
     }
 
+    /*  cette methode  renvoie le formulaire de creation des types de media  */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute MediaType mediaType, BindingResult bindingResult, Model model) {
@@ -56,6 +58,8 @@ public class MediaTypeController {
         return "redirect:/mediatype";
     }
 
+
+    /*  cette methode  renvoie le formulaire d'edition des types de media  */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
@@ -71,6 +75,7 @@ public class MediaTypeController {
         return "base";
     }
 
+    /*  cette methode supprime un type de media  */
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
