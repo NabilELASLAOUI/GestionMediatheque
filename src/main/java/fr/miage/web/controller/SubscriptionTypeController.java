@@ -19,15 +19,15 @@ import javax.validation.Valid;
 public class SubscriptionTypeController {
 
 
-
+    /* l'injection de subscriptionTypeService */
     @Autowired
     SubscriptionTypeService subscriptionTypeService;
 
+    /* cette methode renvoie la liste des types d'abonnement*/
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
-        /***********  List des types de media   *****************/
-       // model.addAttribute("mediatypes", this.mediatypeService.findAll());
-        /***********  Ajout d'un type de media ****************/
+        /***********  List des types d'abonnement   *****************/
+        /***********  Ajout d'un type d'abonnement ****************/
         model.addAttribute("action","/subscriptiontype/create");
         model.addAttribute("SubscriptionType", new SubscriptionType());
         model.addAttribute("subscriptiontypes", subscriptionTypeService.findAll());
@@ -38,28 +38,24 @@ public class SubscriptionTypeController {
         return "base";
     }
 
+    /*Cette methode sert a la creation d'un abonnement */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute SubscriptionType subscriptiontype, BindingResult bindingResult, Model model) {
-        //LOGGER.info("******* create User *******");
+        //LOGGER.info("******* create type abonnement *******");
         if (bindingResult.hasErrors()) {
-            /***********  errors media type ****************/
-            //LOGGER.info("-----------> errors media type create");
+            /***********  errors abonnement type ****************/
             model.addAttribute("action","/subscriptionType/create");
             model.addAttribute("SubscriptionType", subscriptiontype);
             /*************   Title and Content html*******************************/
             model.addAttribute("title", "Subscriptiontypes");
             model.addAttribute("content", "subscriptiontype/index");
-
-            //mail
-
-
             return "base";
         }
-
-
         subscriptionTypeService.save(subscriptiontype);
         return "redirect:/subscriptiontype";
     }
+
+    /* Cette methode sert a la récuperation des données d'un type d'abonnement pour les modifier */
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("SubscriptionType", subscriptionTypeService.findByTypeId(id));
@@ -74,6 +70,7 @@ public class SubscriptionTypeController {
         return "base";
     }
 
+    /*Cette methode supprime un type d'abonnement*/
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         subscriptionTypeService.delete(id);

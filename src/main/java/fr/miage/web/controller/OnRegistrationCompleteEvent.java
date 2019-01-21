@@ -6,10 +6,12 @@ import org.springframework.context.ApplicationEvent;
 import java.util.Locale;
 
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
+    /*les attributs appUrl,locale et user*/
     private String appUrl;
     private Locale locale;
     private User user;
 
+    /*Constructeur OnRegistrationCompleteEvent */
     public OnRegistrationCompleteEvent(User user, Locale locale, String appUrl) {
         super(user);
         this.user = user;
@@ -17,7 +19,7 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
         this.appUrl = appUrl;
     }
 
-    // standard getters and setters
+    /*des setters et des getters*/
 
     public String getAppUrl() {
         return appUrl;
