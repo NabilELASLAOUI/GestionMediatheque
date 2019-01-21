@@ -24,6 +24,7 @@ public class User {
     @NotNull
     @Column(name="userMail")
     private String userMail;
+
     @NotNull
     @Column(name="Password")
     private String Password;

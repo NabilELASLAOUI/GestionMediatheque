@@ -20,7 +20,8 @@ public class MediaTypeController {
     @Autowired
     MediaTypeService mediatypeService;
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    /* cette methode renvoie la liste des type de média*/
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des types de media   *****************/
@@ -37,7 +38,8 @@ public class MediaTypeController {
         return "base";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    /* cette methode permet d'ajouter un type de média*/
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String submitCreate(@Valid @ModelAttribute MediaType mediaType, BindingResult bindingResult, Model model) {
         //LOGGER.info("******* create User *******");
@@ -56,7 +58,8 @@ public class MediaTypeController {
         return "redirect:/mediatype";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    /* cette methode renvoie le formulaire de modification d'un type de média*/
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam("id") Long id, Model model) {
         model.addAttribute("MediaType", mediatypeService.findByTypeId(id));
@@ -71,7 +74,8 @@ public class MediaTypeController {
         return "base";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    /* cette methode supprime un type de média*/
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id) {
         mediatypeService.delete(id);

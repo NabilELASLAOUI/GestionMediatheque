@@ -6,10 +6,12 @@
                 <div class="row">
                     <div class="col-lg-offset-1 col-lg-4">
                         <h3 class="panel-heading">
-                            Inscription
+                            Paramètres
                         </h3>
                         <form  th:action="${action}" th:object="${User}" method="post" class="form-horizontal"role="form">
                             <input type="hidden" th:field="*{userId}"/>
+                            <input type="hidden" th:field="*{password}"/>
+                            <input type="hidden" th:field="*{roles}"/>
                             <div class="form-group">
                                 <label for="typeName" >Nom</label>
                                 <div>
@@ -22,13 +24,6 @@
                                 <div>
                                     <input class="form-control" id="typeName" type="text" th:field="*{userMail}" th:placeholder="#{userMail}" />
                                     <span th:if="${#fields.hasErrors('userMail')}" th:errors="*{userMail}">Field name has errors</span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="typeName" >Mot de Passe</label>
-                                <div>
-                                    <input class="form-control" id="typeName" type="password" th:field="*{Password}" placeholder="password" />
-                                    <span th:if="${#fields.hasErrors('Password')}" th:errors="*{Password}">Field name has errors</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -45,18 +40,6 @@
                                     <span th:if="${#fields.hasErrors('userPhone')}" th:errors="*{userPhone}">Field name has errors</span>
                                 </div>
                             </div>
-                            <div class="form-group" sec:authorize="isAuthenticated()">
-                                <div th:if="${#authentication.getPrincipal().getRoles().getRoleName() == 'ADMIN'}">
-                                <label for="typeName" >Role</label>
-                                <select th:field="*{roles}">
-                                    <option th:value="null">Aucun role</option>
-                                    <option th:each="role : ${roles}" th:value="${role.roleId}">
-                                        <span th:text="${role.roleName}"></span>
-                                    </option>
-                                </select>
-                                <span th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}" />
-                                </div>
-                            </div>
                             <di sec:authorize="!isAuthenticated()">
                                 <input class="form-control" id="roles" type="hidden" name="roles" th:value="${role.roleId}" />
                             </di>
@@ -67,9 +50,6 @@
                 </div>
 
             </div>
-            <!-- /.panel-body -->
         </div>
-        <!-- /.panel -->
     </div>
-    <!-- /.col-lg-12 -->
 </div>

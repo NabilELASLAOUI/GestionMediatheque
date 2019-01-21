@@ -45,7 +45,7 @@
                             </div>
 
                             <div sec:authorize="hasRole('ROLE_CLIENT')">
-                                <input class="form-control" id="user_sub" type="text" name="user_sub" th:placeholder="${#authentication.getPrincipal().getUserId()}" />
+                                <input class="form-control" id="user_sub" type="hidden" name="user_sub" th:value="${#authentication.getPrincipal().getUserId()}" />
                             </div>
                             <div sec:authorize="hasAnyRole('ROLE_EMPLOYE','ROLE_ADMIN')">
                                 <input class="form-control" id="user_sub" type="hidden" name="user_sub" th:value="${user}" />

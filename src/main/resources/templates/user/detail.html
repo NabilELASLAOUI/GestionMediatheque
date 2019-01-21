@@ -10,10 +10,10 @@
                                  <p  th:text="${' Email :  ' + user.userMail}"></p>
                                  <p  th:text="${' Adresse :       ' + user.userAddress}"></p>
                                  <p  th:text="${' Téléphone :       ' + user.userPhone}"></p>
-                                 <p  th:text="${' Role :       ' + user.roles[0].roleName}"></p>
-                        <div th:if="${user.subscription}">
-                            <p><a th:href="@{/subscription/detail(id=${user.subscription.subscriptionId})}">Détail de l'abonnement</a></p>
-                        </div>
+                                 <p  th:text="${' Role :       ' + user.roles.roleName}"></p>
+                        <!--<div th:if="${user.subscription}">-->
+                            <!--<p><a th:href="@{/subscription/detail(id=${user.subscription.subscriptionId})}">Détail de l'abonnement</a></p>-->
+                        <!--</div>-->
                     </div>
                 </div>
 

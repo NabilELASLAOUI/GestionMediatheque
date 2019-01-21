@@ -10,6 +10,8 @@
                                  <p  th:text="${' Email :  ' + user.userMail}"></p>
                                  <p  th:text="${' Adresse :       ' + user.userAddress}"></p>
                                  <p  th:text="${' Téléphone :       ' + user.userPhone}"></p>
+                                 <p><a th:href="@{/user/settings(id=${#authentication.getPrincipal().getUserId()})}">Paramètres</a></p>
+                                 <p><a th:href="@{/user/changePassword(id=${#authentication.getPrincipal().getUserId()})}">Changer mot de passe</a></p>
                         <div th:if="${user.subscriptions}" th:each="subscription : ${subscriptions}">
                             <p><a th:href="@{/subscription/detail(id=${subscription.subscriptionId})}">Détail de l'abonnement</a></p>
                         </div>

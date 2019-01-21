@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.persistence.EntityManager;
@@ -129,25 +130,6 @@ public class UserController {
         pk.setUser(userService.findByuserId(userId));
         pk.setMedia(mediaService.findByMediaId(mediaId));
         userMediaRepository.deleteUserMedia(pk);
-       /* UserMedia userMediaTmp=null;
-        for(UserMedia um :userMedias){
-            if(um.getPk()==userMedia.getPk()){
-                System.out.println("ggggggggggggggggggggggggggggggggggggggg"+userMedias.size());
-                userMediaTmp=um;
-            }
-        }
-        boolean isRemoved =userMedias.remove(userMediaTmp);
-        System.out.println("ffffffffffffffffffffffffffffffffffff "+isRemoved+userMedias.size());
-         if (isRemoved)
-         {
-             user.getUserMedias().clear();
-             //user.setUserMedias(userMedias);
-             userService.save(user);
-         }else {
-             System.out.println("ffffffffffffffffffffffffffffffffffff not removed");
-         }*/
-
-
         return "redirect:/borrowing";
 
     }
@@ -248,7 +230,6 @@ public class UserController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String submitEdit(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getModel().values());
             model.addAttribute("action","/user/edit");
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("title", "Utilisateurs");
@@ -270,6 +251,7 @@ public class UserController {
         return "redirect:/user";
     }
 
+    /* cette methode renvoie les détails de chaque client*/
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE')")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(@RequestParam("id") Long id, Model model) {
@@ -295,7 +277,68 @@ public class UserController {
         model.addAttribute("content", content);
         return "base";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
+    @RequestMapping(value = "/settings", method = RequestMethod.GET)
+    public String settings(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("User", userService.findByuserId(id));
+        String action="/user/settings";
+        model.addAttribute("action",action);
+        String title="Paramètres";
+        model.addAttribute("title", title);
+        String content="user/settings";
+        model.addAttribute("content", content);
+        return "base";
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
+    @RequestMapping(value = "/settings", method = RequestMethod.POST)
+    public String submitSettings(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("User", userService.findByuserId(user.getUserId()));
+            String action="/user/settings";
+            model.addAttribute("action",action);
+            String title="Paramètres";
+            model.addAttribute("title", title);
+            String content="user/settings";
+            model.addAttribute("content", content);
+            return "base";
+        }
+        user.setEnabled(true);
+        userService.save(user);
+        redirectAttributes.addAttribute("id", user.getUserId());
+        return "redirect:/user/monCompte/";
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    public String changePassword(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("User", userService.findByuserId(id));
+        String action="/user/changePassword";
+        model.addAttribute("action",action);
+        /*************   Title and Content html*******************************/
+        String title="Modification";
+        model.addAttribute("title", title);
+        String content="user/editPassword";
+        model.addAttribute("content", content);
+        return "base";
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYE','CLIENT')")
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public String submitChangePassword(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("User", userService.findByuserId(user.getUserId()));
+            String action="/user/settings";
+            model.addAttribute("action",action);
+            String title="Paramètres";
+            model.addAttribute("title", title);
+            String content="user/settings";
+            model.addAttribute("content", content);
+            return "base";
+        }
+        user.setEnabled(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.save(user);
+        redirectAttributes.addAttribute("id", user.getUserId());
+        return "redirect:/user/monCompte/";
+    }
     @PreAuthorize("hasAnyRole('Admin','Employe')")
     @RequestMapping(value = "/subscription", method = RequestMethod.POST)
     public String Usersubscription(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
@@ -307,7 +350,6 @@ public class UserController {
             model.addAttribute("urlUser","User");
             return "base";
         }
-        LOGGER.info("---------> user subscription");
         userService.save(user);
         return "redirect:/user";
     }

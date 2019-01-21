@@ -48,8 +48,6 @@ public class MediaController {
     @Autowired
     private UserService userService;
 
-    //@PreAuthorize("hasAnyRole('ADMIN')")
-
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         /***********  List des medias   *****************/
